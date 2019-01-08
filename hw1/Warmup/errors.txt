@@ -1,0 +1,212 @@
+1. Comment out #include <stdio.h> from errorwarmup1.c (place "//" before it)
+1)errorwarmup.c:16:2: warning: implicitly declaring library function 'printf' with
+      type 'int (const char *, ...)' [-Wimplicit-function-declaration]
+        printf("Integer: %d\n",ival);
+        ^
+errorwarmup.c:16:2: note: include the header <stdio.h> or explicitly provide a
+      declaration for 'printf'
+1 warning generated.
+
+
+
+2. Declare the same variable name twice
+2)errorwarmup.c:53:6: error: redefinition of 'result'
+        int result = 3;
+            ^
+errorwarmup.c:52:6: note: previous definition is here
+        int result = ival*5;
+            ^
+1 error generated.
+
+
+3. Remove a variable declaration
+3)errorwarmup.c:52:9: error: use of undeclared identifier 'result'
+        return result;
+               ^
+1 error generated.
+
+
+4. Misspell a variable name or function name
+4)errorwarmup.c:53:9: error: use of undeclared identifier 'result'; did you mean 'rsult'?
+        return result;
+               ^~~~~~
+               rsult
+errorwarmup.c:52:6: note: 'rsult' declared here
+        int rsult = ival*5;
+            ^
+1 error generated.
+
+
+5. Remove a closed curly brace
+5)errorwarmup.c:53:6: error: redefinition of 'result'
+        int result = 3;
+            ^
+errorwarmup.c:52:6: note: previous definition is here
+        int result = ival*5;
+            ^
+1 error generated.
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ vi errorwarmup.c 
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ vi warmup.c 
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ clang errorwarmup.c 
+errorwarmup.c:52:9: error: use of undeclared identifier 'result'
+        return result;
+               ^
+1 error generated.
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ vi errorwarmup.c \
+> ^C
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ vi errorwarmup.c 
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ clang errorwarmup.c 
+errorwarmup.c:53:9: error: use of undeclared identifier 'result'; did you mean 'rsult'?
+        return result;
+               ^~~~~~
+               rsult
+errorwarmup.c:52:6: note: 'rsult' declared here
+        int rsult = ival*5;
+            ^
+1 error generated.
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ vi errorwarmup.c 
+messaid@seel:~/Desktop/messaid-cs152-win-19/hw1$ clang errorwarmup.c 
+errorwarmup.c:50:29: error: expected ';' after top level declarator
+int return_a_value(int ival)
+                            ^
+                            ;
+errorwarmup.c:52:15: error: use of undeclared identifier 'ival'
+        int result = ival*5;
+                     ^
+errorwarmup.c:53:2: error: expected identifier or '('
+        return result;
+        ^
+errorwarmup.c:54:1: error: extraneous closing brace ('}')
+}
+^
+4 errors generated.
+
+
+
+
+6. Remove a semi-colon from the end of one of the lines
+6) errorwarmup.c:1:1: error: unknown type name 'k'
+k#include <stdio.h>
+^
+errorwarmup.c:1:2: error: expected identifier or '('
+k#include <stdio.h>
+ ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:139:8: error: unknown type name 'size_t'
+extern size_t __ctype_get_mb_cur_max (void) __THROW __wur;
+       ^
+/usr/include/stdlib.h:331:4: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+                        size_t __statelen) __THROW __nonnull ((2));
+                        ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:361:4: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+                        size_t __statelen,
+                        ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:466:22: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *malloc (size_t __size) __THROW __attribute_malloc__ __wur;
+                     ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:468:22: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *calloc (size_t __nmemb, size_t __size)
+                     ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:468:38: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *calloc (size_t __nmemb, size_t __size)
+                                     ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:480:36: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *realloc (void *__ptr, size_t __size)
+                                   ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+In file included from /usr/include/stdlib.h:492:
+/usr/include/alloca.h:32:22: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *alloca (size_t __size) __THROW;
+                     ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:498:22: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *valloc (size_t __size) __THROW __attribute_malloc__ __wur;
+                     ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:503:45: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern int posix_memalign (void **__memptr, size_t __alignment, size_t __size)
+                                            ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:503:65: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern int posix_memalign (void **__memptr, size_t __alignment, size_t __size)
+                                                                ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:509:29: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *aligned_alloc (size_t __alignment, size_t __size)
+                            ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:509:49: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void *aligned_alloc (size_t __alignment, size_t __size)
+                                                ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:755:9: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+                      size_t __nmemb, size_t __size, __compar_fn_t __compar)
+                      ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:755:25: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+                      size_t __nmemb, size_t __size, __compar_fn_t __compar)
+                                      ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:764:34: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void qsort (void *__base, size_t __nmemb, size_t __size,
+                                 ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+In file included from errorwarmup.c:2:
+/usr/include/stdlib.h:764:50: error: unknown type name 'size_t'; did you mean 'ssize_t'?
+extern void qsort (void *__base, size_t __nmemb, size_t __size,
+                                                 ^
+/usr/include/x86_64-linux-gnu/sys/types.h:109:19: note: 'ssize_t' declared here
+typedef __ssize_t ssize_t;
+                  ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.
+ 
