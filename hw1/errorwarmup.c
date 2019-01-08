@@ -1,5 +1,4 @@
-
-#include <stdio.h>
+k#include <stdio.h>
 #include <stdlib.h>
 
 /* print_stuff: prints several variables of different types
@@ -50,7 +49,7 @@ void do_some_math(int ival, float fval, char cval)
  */
 int return_a_value(int ival)
 {
-	int result = ival*5;
+	int result = ival*5
 	return result;
 }
 
