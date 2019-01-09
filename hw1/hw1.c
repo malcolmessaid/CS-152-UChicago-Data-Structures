@@ -17,6 +17,25 @@ double surface_area_cube(double edge_length) {
 	return result;
 }
 
+unsigned int test_surface_area(double edge_length, double expected, double accuracy) {
+	// Surface Area
+	double sa;
+	sa = surface_area_cube(edge_length);
+	
+	if ((sa >= expected - accuracy) && (sa <= expected + accuracy)) {
+		printf("Test passed: Test edge_length %lf, expected %lf, calculated %lf \n",
+			edge_length, expected, sa);
+		return 1;
+	}
+
+	if ((sa <  expected - accuracy) || (sa > expected + accuracy)) {
+                printf("FAILED TEST: Test edge_length %lf, expected %lf, calculated %lf \n",
+                       edge_length, expected, sa);
+        	return 0;	
+	}
+
+}
+
 double sides_to_area(unsigned int num_sides, double side_length) {
 	
 	if ((num_sides < 3) || (num_sides > 9) || (num_sides == 7)) {
@@ -39,7 +58,7 @@ double surface_area_cylinder(double height, double radius) {
 }
 
 int main() {
-	double dval, test1, test2;
+	double dval;
 
 	dval = surface_area_cylinder(2,1.5);
 //	fprintf(stderr, surface_area_cube(3.0));
