@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+// EXERCISE 1
+
 /* surface_area: returns the surface area, as a double, of a cube given
  * given the side length
  * inputs:
@@ -80,6 +83,51 @@ double surface_area_cylinder(double height, double radius) {
 	return 0.0;
 }
 
+// ----------
+
+// EXERCISE 2
+
+
+void print_number_grid(int start_num) {
+
+	if (start_num > 999999) {
+		fprintf(stderr, "error print_number_grid:  start_num must less than 999999");
+	}
+	if (start_num < -999999) {
+		fprintf(stderr, "error print_number_grid:  start_num must greater than -999999");
+	}
+
+
+	int temp;
+	if ((start_num % 10) == 0){
+		temp = start_num;
+	}
+	else {
+		temp = start_num - (abs(start_num) % 10);
+	}
+	for (int i = 0; i < 10; i++){
+		for (int j = 0; j < 10; j++){
+			int count = 0;
+			int n = abs(temp);
+			while(n != 0){
+        n /= 10;
+        count++;
+    	}
+			if (temp <= 0) count++;
+
+			for (int k = 0; k < (6 - count); k++) {
+				printf(" ");
+			}
+
+			printf("%d", temp);
+			temp++;
+		}
+		printf("\n");
+	}
+}
+
+
+
 int main() {
 //	double dval;
 
@@ -91,5 +139,13 @@ int main() {
 	test_surface_area(3.0, 54.0, 0.1);
 	test_surface_area(2.3, 31.74, 0.1);
 	test_surface_area(5.8, 201.84, 0.1);
-	//	test_surface_area(0.0, -1.0, 0.1);
+//	test_surface_area(0.0, -1.0, 0.1);
+
+
+// Tests for print_number_grid
+	printf("print_number_grid Input: 13 \n");
+	print_number_grid(13);
+	printf("print_number_grid Input: -15 \n");
+	print_number_grid(-15);
+
 }
