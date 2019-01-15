@@ -17,6 +17,9 @@ int main()
 
 	print_asterisk_letter('N');
 	draw_sideways_wedge_rec(3, 10);
+
+//	print_n_times(4);	
+
 	draw_sideways_wedge_iter(3, 10);
 	draw_halves_down(20);
 	draw_halves_up(20);
