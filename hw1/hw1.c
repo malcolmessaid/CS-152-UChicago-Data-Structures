@@ -3,8 +3,6 @@
 #include <math.h>
 
 
-
-
 // EXERCISE 1
 
 /* surface_area: returns the surface area, as a double, of a cube given
@@ -77,7 +75,7 @@ double sides_to_area(unsigned int num_sides, double side_length) {
 	return result;
 }
 
-/* test_sides_to_area: Helper functio to tests test_sides_to_area
+/* test_sides_to_area: Helper function to tests test_sides_to_area
  * inputs:
  * 	double side_length - double value for side length
  *  unsigned int num_sides - number of sides of shape. Determines shape type.
@@ -124,9 +122,11 @@ void print_number_grid(int start_num) {
 
 	if (start_num > 999999) {
 		fprintf(stderr, "error print_number_grid:  start_num must less than 999999");
+		return;
 	}
 	if (start_num < -999999) {
 		fprintf(stderr, "error print_number_grid:  start_num must greater than -999999");
+		return;
 	}
 
 
@@ -410,18 +410,20 @@ int main() {
 // Checking errors
 	printf("Should return error: edge_length must be not be negative \n");
 	test_surface_area(0.0, -1.0, 0.1);
-	printf("\n", );
+	printf("\n");
 
 
 	printf("Tests for sides_to_area\n");
 	test_sides_to_area(3, 3.0, 9.0, .1);
 	test_sides_to_area(4, 3.0, 12.0, .1);
 	test_sides_to_area(6, 3.0, 18.0, .1);
+	printf("\n");
 
 // Checking errors
 	printf("Should return error: Invalid num_sides. Shape must be either triangle, square,"
 	 "pentagon,  hexagon, octagon, and nonagon. \n");
-	sides_to_area(7, 3.0, 0.1);
+	sides_to_area(7, 3.0);
+	printf("\n");
 	printf("\n");
 
 
@@ -434,6 +436,12 @@ int main() {
 	print_number_grid(-15);
 	printf("\n");
 
+	// Checking Errors
+
+	printf("Error should be: start_num must greater than -999999\n");
+	print_number_grid(-10000000);
+	printf("\n");
+	printf("\n");
 
 // Test for Mastermind
 	printf("Tests for Mastermind\n");
@@ -478,6 +486,7 @@ int main() {
 	// Checking errors working properly
 	printf("Should return error: patterns must be 4 digits \n");
 	get_guess_feedback(11111, 2343);
+	printf("\n");
 	printf("\n");
 	printf("Should return error:  patterns must be digited with values between 1 and 6 \n");
 	get_guess_feedback(1119, 2343);
