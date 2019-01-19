@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "warmup2.h"
 
 /* print_asterisk_letter
@@ -69,45 +70,38 @@ void print_n_times(unsigned int width){
 
 
 
-/* draw_sideways_wedge_rec
- * draws a sideways wedge with asterisks. implemented recursively.
+/* recursive_sideways_helper
+ * Helper for draw_sideways_wedge_rec. Parameters are different.
+ draws a sideways wedge with asterisks. implemented recursively.
  * inputs:
  *   uint width - the  minimum width of the wedge
  *   uint height - the number of rows to print of the wedge
+ *   uint max - Initial height. Stays constant.
  * outputs:
  *   nothing returned, just printed to the screen
  */
 
 void recursive_sideway_helper(unsigned int width, unsigned int height, unsigned int max){
-	
-
-	unsigned int temp = width;
 
 	if (height == 1){
-                print_n_times(width);
-         }
-        
+    print_n_times(width);
+  }
+
 	else if (height <= (max/2)){
-		print_n_times(--temp);
-		printf("%d\n", temp);
+		print_n_times(width);
 		recursive_sideway_helper(--width, --height, max);
 	}
-      
+
 	else {
-              	print_n_times(temp++);
-		printf("%d\n", temp);
+    print_n_times(width);
 		recursive_sideway_helper(++width, --height, max);
-        }
-
-	fprintf(stderr,"error draw_sideways_wedge_rec: not yet implemented\n");
-        return;
-
-
+  }
 
 }
 
 /* draw_sideways_wedge_rec
- * draws a sideways wedge with asterisks. implemented recursively.
+ * draws a sideways wedge with asterisks. implemented recursively. Calls recursive_sideway_helper
+ * to do the recursion.
  * inputs:
  *   uint width - the  minimum width of the wedge
  *   uint height - the number of rows to print of the wedge
@@ -117,7 +111,23 @@ void recursive_sideway_helper(unsigned int width, unsigned int height, unsigned 
 
 void draw_sideways_wedge_rec(unsigned int width, unsigned int height)
 {
-	recursive_sideway_helper(width, height, height);	
+
+	if (height <= 0) {
+		fprintf(stderr, "draw_sideways_wedge_rec:  height must be positive");
+		return;
+	}
+
+	if (width <= 0) {
+		fprintf(stderr, "draw_sideways_wedge_rec:  width must be positive");
+		return;
+	}
+
+	recursive_sideway_helper(width, height, height);
+
+
+	if (height == 0){
+		print_n_times(width);
+	}
 }
 
 
@@ -133,8 +143,27 @@ void draw_sideways_wedge_rec(unsigned int width, unsigned int height)
 
 void draw_sideways_wedge_iter(unsigned int width, unsigned int height)
 {
-	fprintf(stderr,"error draw_sideways_wedge_iter: not yet implemented\n");
-	return;
+	unsigned int i,j;
+	for (i = 0; i < (height / 2); i++) {
+		for (j = 0; j < width; j++) {
+			printf("*");
+		}
+		printf("\n");
+		printf("\n");
+		width++;
+	}
+	if ((height % 2) == 0) {
+		width--;
+	}
+	for (i = i; i < height ; i++) {
+		for (j = width; j > 0; j--) {
+			printf("*");
+		}
+		printf("\n");
+		printf("\n");
+		width--;
+	}
+
 }
 
 /* draw_halves_down
@@ -146,11 +175,17 @@ void draw_sideways_wedge_iter(unsigned int width, unsigned int height)
  * outputs:
  *    uint - number of rows of asterisks draw
  */
-unsigned int draw_halves_down(unsigned int width)
-{
-	fprintf(stderr,"error draw_halves_down: not yet implemented\n");
-	return 0;
+unsigned int draw_halves_down(unsigned int width) {
+	if (width == 1) {
+		printf("*\n");
+		return 1;
+	}
+	else {
+		print_n_times(width);
+		return (width + draw_halves_down(width/2));
+	}
 }
+
 
 
 /* draw_halves_up
@@ -164,6 +199,16 @@ unsigned int draw_halves_down(unsigned int width)
  */
 unsigned int draw_halves_up(unsigned int width)
 {
-	fprintf(stderr,"error draw_halves_up: not yet implemented\n");
-	return 0;
+	if (width == 1) {
+		printf("*\n");
+		return 1;
+	}
+	else {
+		unsigned int temp = draw_halves_up(width/2);
+		print_n_times(width);
+		return (width + temp);
+	}
+
+	// fprintf(stderr,"error draw_halves_up: not yet implemented\n");
+	// return 0;
 }
