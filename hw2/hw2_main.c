@@ -31,6 +31,11 @@ unsigned int print_menu()
 	return result;
 }
 
+
+// TEST FUNCTIONS BELONG HERE
+
+
+
 int main()
 {
     int choice = 0;

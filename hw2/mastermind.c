@@ -2,8 +2,246 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "mastermind.h"
+#include <math.h>
 
 /******* TODO: PUT YOUR MASTERMIND CODE FROM HW1 HERE ******/
+
+
+/* extract_digit: Takes in a 4-digit pattern and returns the value at the given digit.
+ * 0 is right most spot.
+ * inputs:
+ * 	unsigned int pattern - the pattern to be parsed
+ *  unsigned int digit - the spot of the value to be returned
+ * outputs:
+ *  returns an unsigned int at the spot indicated
+*/
+unsigned int extract_digit(unsigned int pattern, unsigned int digit) {
+	unsigned int temp = pattern;
+	temp /= pow(10, digit);
+	return (temp % 10);
+}
+
+
+/* test_extract_digit: Helper that tests extract_digit
+ * inputs:
+ * 	unsigned int pattern - the pattern to be parsed
+ *  unsigned int digit - the spot of the value to be returned
+ *  unsigned int expected - expected value of test
+ * outputs:
+ *  returns a 1 if correct 0 if not. Prints results of tests.
+ */
+unsigned int test_extract_digits(unsigned int pattern, unsigned int digit, unsigned int expected){
+	unsigned int temp = extract_digit(pattern, digit);
+	if (temp == expected) {
+		printf("Test passed: Test Pattern: %d, Digit:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		pattern, digit, expected, temp);
+		return 1;
+	}
+	else {
+		printf("Test failed: Test Pattern: %d, Digit:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		pattern, digit, expected, temp);
+		return 0;
+	}
+}
+
+
+
+/* extract_digit: Takes in a 4-digit pattern and a color. Returns amount of instances
+ * of the given color in the pattern.
+ * inputs:
+ * 	unsigned int pattern - the pattern to be parsed
+ *  unsigned int color - the color to search for
+ * outputs:
+ *  returns an unsigned int indicating amount of instances
+ */
+unsigned int num_of_color(unsigned int pattern, unsigned int color){
+	unsigned int temp = pattern;
+	unsigned int count = 0;
+	while (temp != 0) {
+		if ((temp % 10) == color){
+			count++;
+		}
+		temp /= 10;
+	}
+	return count;
+}
+
+/* test_num_of_color: Helper that tests num_of_color
+ * inputs:
+ * 	unsigned int pattern - the pattern to be parsed
+ *  unsigned int color - the color to search for
+ *  unsigned int expected - expected value of test
+ * outputs:
+ *  returns a 1 if correct 0 if not. Prints results of tests.
+ */
+unsigned int test_num_of_color(unsigned int pattern, unsigned int color, unsigned int expected){
+	unsigned int temp = num_of_color(pattern, color);
+	if (temp == expected) {
+		printf("Test passed: Test Pattern: %d, Color:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		pattern, color, expected, temp);
+		return 1;
+	}
+	else {
+		printf("Test failed: Test Pattern: %d, Color:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		pattern, color, expected, temp);
+		return 0;
+	}
+}
+
+
+/* test_count_exact_matches: Counts the number of exact matches between
+ * a given guess and solution
+ * inputs:
+ * 	unsigned int guess - the guess pattern to compare
+ *  unsigned int solution - the solution pattern to compate
+ * outputs:
+ *  unsigned int - number instances of exact matches
+ */
+
+unsigned int count_exact_matches(unsigned int guess, unsigned int solution){
+	unsigned int count = 0;
+	int i;
+	for (i = 0; i < 4; i++) {
+		if (extract_digit(guess, i) == extract_digit(solution, i)){
+			count++;
+		}
+	}
+	return count;
+}
+
+
+/* test_count_exact_matches: Helper that tests count_exact_matches
+ * inputs:
+ * 	unsigned int guess - the guess pattern to compare
+ *  unsigned int solution - the solution pattern to compate
+ *  unsigned int expected - expected value of test
+ * outputs:
+ *  returns a 1 if correct 0 if not. Prints results of tests.
+ */
+
+unsigned int test_count_exact_matches(unsigned int guess, unsigned int solution, unsigned int expected){
+	unsigned int temp = count_exact_matches(guess, solution);
+	if (temp == expected) {
+		printf("Test passed: Test Guess: %d, Solution:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		guess, solution, expected, temp);
+		return 1;
+	}
+	else {
+		printf("Test failed: Test Guess: %d, Solution:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		guess, solution, expected, temp);
+		return 0;
+	}
+}
+
+/* count_color_matches: Counts the number of color matches between
+ * a given guess and solution
+ * inputs:
+ * 	unsigned int guess - the guess pattern to compare
+ *  unsigned int solution - the solution pattern to compate
+ * outputs:
+ *  unsigned int - number instances of color matches
+ */
+unsigned int count_color_matches(unsigned int guess, unsigned int solution){
+	unsigned int count = 0;
+	int i, j;
+	for (i = 0; i < 4; i++) {
+		unsigned int temp = extract_digit(solution, i);
+		for (j = 0; j < 4; j++) {
+			if (temp == extract_digit(guess, j)){
+				count++;
+				break;
+			}
+		}
+	}
+	return count;
+}
+
+/* test_count_color_matches: Helper that tests count_color_matches
+ * inputs:
+ * 	unsigned int guess - the guess pattern to compare
+ *  unsigned int solution - the solution pattern to compate
+ *  unsigned int expected - expected value of test
+ * outputs:
+ *  returns a 1 if correct 0 if not. Prints results of tests.
+ */
+
+unsigned int test_count_color_matches(unsigned int guess, unsigned int solution, unsigned int expected){
+	unsigned int temp = count_color_matches(guess, solution);
+	if (temp == expected) {
+		printf("Test passed: Test Pattern: %d, Color:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		guess, solution, expected, temp);
+		return 1;
+	}
+	else {
+		printf("Test failed: Test Pattern: %d, Color:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		guess, solution, expected, temp);
+		return 0;
+	}
+}
+
+/* get_guess_feedback: Returns feedback for guess. 10s place represents
+ * number of exact matches. 1s represents remaining color matches
+ * inputs:
+ * 	unsigned int guess - the guess pattern to compare
+ *  unsigned int solution - the solution pattern to compate
+ * outputs:
+ *  unsigned int as a Feedback number.
+ */
+unsigned int get_guess_feedback(unsigned int guess, unsigned int solution){
+	unsigned int exact = count_exact_matches(guess, solution);
+	unsigned int inexact = count_color_matches(guess, solution);
+
+	// Checking if patterns have 4 digits
+	if ((guess > 6666) || (guess < 1000) || (solution > 6666) || (solution < 1000)){
+		fprintf(stderr, "error get_guess_feedback: patterns must be 4 digits");
+		return 0;
+	}
+
+	// Checking if patterns are digited correctly.
+	for (int i = 0; i < 4; i++) {
+		if ((extract_digit(guess, i) > 6) || (extract_digit(solution, i) > 6) ||
+				(extract_digit(guess, i) < 1) || (extract_digit(solution, i) < 1)) {
+			fprintf(stderr, "error get_guess_feedback: patterns must be digited with values between 1 and 6");
+		}
+	}
+
+	return ((10 * exact) + (inexact - exact));
+}
+
+/* test_get_guess_feedback: Helper function that tests get_guess_feedback
+ * inputs:
+ * 	unsigned int guess - the guess pattern to compare
+ *  unsigned int solution - the solution pattern to compate
+ *  unsigned int expected - expected value of the test
+ * outputs:
+ *  unsigned int as a Feedback number.
+ */
+unsigned int test_get_guess_feedback(unsigned int guess, unsigned int solution, unsigned int expected){
+	unsigned int temp = get_guess_feedback(guess, solution);
+	if (temp == expected) {
+		printf("Test passed: Test Pattern: %d, Color:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		guess, solution, expected, temp);
+		return 1;
+	}
+	else {
+		printf("Test failed: Test Pattern: %d, Color:"
+		"%d, Expected Value: %d, Calculated Value: %d  \n",
+		guess, solution, expected, temp);
+		return 0;
+	}
+}
+
+
+
 
 /******* TODO: Reimplement your mastermind code with loops ******/
 
