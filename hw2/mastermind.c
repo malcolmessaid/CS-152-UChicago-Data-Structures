@@ -191,7 +191,7 @@ unsigned int test_count_color_matches(unsigned int guess, unsigned int solution,
  * number of exact matches. 1s represents remaining color matches
  * inputs:
  * 	unsigned int guess - the guess pattern to compare
- *  unsigned int solution - the solution pattern to compate
+ *  unsigned int solution - the solution pattern to compare
  * outputs:
  *  unsigned int as a Feedback number.
  */
@@ -276,6 +276,15 @@ unsigned int get_new_code()
 	return result;
 }
 
+/* play_mastermind
+ * Executes the game. Prompts player to guess, give feedback accordingly. Ends game
+     when appropriate.
+ * inputs:
+ *   none
+ * outputs:
+ *  none
+ */
+
 void play_mastermind()
 {
 
@@ -289,29 +298,42 @@ void play_mastermind()
 	printf("solution: %u\n",solution);
 
 	// TODO: Limit number of guesses to 12 guesses
+	while (guess_num < 12){
 
-	// TODO: Print out the guess number each time
-	printf("Guess %d - ",guess_num);
-	printf("Input your 4-digit guess: ");
-	scanf("%u",&guess);
+		// TODO: Print out the guess number each time
+		printf("Guess %d - ",guess_num);
+		printf("Input your 4-digit guess: ");
+		scanf("%u",&guess);
 
-	// TODO: Get the feedback from the guess.
+		// TODO: Get the feedback from the guess.
+		feedback = get_guess_feedback(guess, solution);
+		printf("%u\n", feedback);
+		printf("ex\n");
+		printf("%u\n", count_exact_matches(guess, solution));
+		printf("%u\n", count_color_matches(guess, solution));
+		printf("Feedback: %u correct placement, correct number,\n",
+			feedback / 10);
+		printf("%u incorrect placement, correct number\n",
+			feedback % 10);
 
-	printf("Feedback: %u correct placement, correct number,\n",
-		feedback / 10);
-	printf("%u incorrect placement, correct number\n",
-		feedback % 10);
 
+		// TODO: Detect whether guess was entirely correct:
+		if ((feedback / 10) == 4) {
+			// if correct, print out congrats and return from this function.
+			printf("Congratulations! Your guess of %u was correct!\n",
+				guess);
+				return;
+		}
+		else {
+			// TODO: if incorrect, print out number of guesses left
+			// if incorrect
+			guess_num = guess_num + 1;
+			printf("Not quite - you still have %u guesses left!\n",
+				(12 - guess_num));
+		}
+	}
+	printf("You lost. You ran out of guesses\n");
 
-	// TODO: Detect whether guess was entirely correct:
-	// if correct, print out congrats and return from this function.
-	printf("Congratulations! Your guess of %u was correct!\n",
-		guess);
-
-	// TODO: if incorrect, print out number of guesses left
-	// if incorrect
-	printf("Not quite - you still have %u guesses left!\n",
-		guess_num);
 
 
 }
