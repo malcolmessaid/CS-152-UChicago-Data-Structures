@@ -15,6 +15,12 @@ void play_5_qs_instructions()
 
 }
 
+/*  determine_answer: helper for play_5_questions. Determines what user is thinking of
+ * inputs:
+ * 	unsigned int n[] - array of the user responses
+ * outputs:
+ *  nothing. Prints what user is thinking of
+ */
 void determine_answer(unsigned int n[]){
 	// If object is alive/an animal
 	if (n[1] == 1){
@@ -69,7 +75,13 @@ void determine_answer(unsigned int n[]){
 }
 
 
-
+/*  play_5_questions: Runs game 5 Questions. Prompts user with yes or no qeuestions.
+		* determines what object they are thinking of based on user responses.
+ * inputs:
+ * 	None
+ * outputs:
+ *  nothing
+ */
 void play_5_questions()
 {
 	unsigned int response;
@@ -123,85 +135,9 @@ void play_5_questions()
 
 	responses[4] = response;
 
-
-
 //	Only print out the correct message
 	determine_answer(responses);
 }
-
-
-/*  base_converter_8: Takes in a number in base 10. Switchs to base 8
- *
- * inputs:
- * 	unsigned int num - value to be converted/reversed
- * outputs:
- *  unsigned int - input value in base 8
- */
-unsigned int base_converter_8(unsigned int num){
-	printf("%u ppoo\n", num /8);
-	if ((num / 8) < 1) {
-		return num;
-	}
-	else {
-		return ((num % 8) + base_converter_8((int)floor(num / 8)));
-	}
-
-    // [(< (/ n 25) 1) (cons n '())]
-    // [else (cons (remainder n 25) (base-converter (floor (/ n 25))))]))
-}
-
-/*  num_string: Takes in a number. Returns string version of it.
- * inputs:
- * 	unsigned int num - value to be converted
- * outputs:
- *  string - string value
- */
-
-// string num_string(unsigned int num){
-// 	if (num == 0){
-// 		return "0";
-// 	}
-// 	if (num == 1){
-// 		return "1";
-// 	}
-// 	if (num == 2){
-// 		return "2";
-// 	}
-// 	if (num == 3){
-// 		return "3";
-// 	}
-// 	if (num == 4){
-// 		return "4";
-// 	}
-// 	if (num == 5){
-// 		return "5";
-// 	}
-// 	if (num == 6){
-// 		return "6";
-// 	}
-// 	if (num == 7){
-// 		return "7";
-// 	}
-// }
-
-
-/*  reverse: Takes in a number. Reverses it
- * inputs:
- * 	unsigned int num - value to be reversed
- * outputs:
- *  unsigned int - Reversed value
- */
- unsigned int reverse(unsigned int num) {
-	 printf("%u\n", num);
-	 if (num < 10){
-		 return num;
-	 }
-	 else {
-		 unsigned int last_digit = (num % 10);
-		 printf("%u\n", last_digit);
-		 return (reverse( num / 10 ) + last_digit));
-	 }
- }
 
 
  /*  print_backwards_base_8: Takes in a number in base 10. Switchs to base 8
@@ -212,8 +148,12 @@ unsigned int base_converter_8(unsigned int num){
   *  nothing. Function prints the new value
   */
  void print_backwards_base_8(unsigned int num) {
-	 reverse(num);
- 	//	printf("%u\n", reverse(num));
-//	 printf("%u\n", base_converter_8(num));
-	 //printf("%u\n", reverse(base_converter_8(num)));
+	 if ( (num / 8) == 0){
+		 printf("%d", (num % 8));
+	 }
+
+	 else {
+	 		printf("%d", (num % 8));
+	 		print_backwards_base_8((num / 8));
+	 }
  }
