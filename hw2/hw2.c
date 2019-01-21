@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "hw2.h"
+#include <math.h>
 
 void play_5_qs_instructions()
 {
@@ -13,17 +14,6 @@ void play_5_qs_instructions()
 
 
 }
-
-// printf("It is a jellyfish!\n");
-// printf("It is a duck-billed platypus!\n");
-// printf("It is a camel!\n");
-// printf("It is a pet gerbil!\n");
-// printf("It is a squirrel!\n");
-// printf("It is a pat of butter!\n");
-// printf("It is an oven!\n");
-// printf("It is a pincushion!\n");
-// printf("It is a see-saw!\n");
-// printf("It is a tetherball!\n");
 
 void determine_answer(unsigned int n[]){
 	// If object is alive/an animal
@@ -140,19 +130,90 @@ void play_5_questions()
 }
 
 
-
-/*  print_backwards_base_8: Takes in a number in base 10. Switchs to base 8
- * then it reverses it
+/*  base_converter_8: Takes in a number in base 10. Switchs to base 8
+ *
  * inputs:
  * 	unsigned int num - value to be converted/reversed
  * outputs:
- *  nothing. Function prints the new value
+ *  unsigned int - input value in base 8
  */
-void print_backwards_base_8(unsigned int num)
-{
-	
+unsigned int base_converter_8(unsigned int num){
+	printf("%u ppoo\n", num /8);
+	if ((num / 8) < 1) {
+		return num;
+	}
+	else {
+		return ((num % 8) + base_converter_8((int)floor(num / 8)));
+	}
 
-	fprintf(stderr,"error: print_backwards_base_8 - not implemented yet\n");
-	return;
-
+    // [(< (/ n 25) 1) (cons n '())]
+    // [else (cons (remainder n 25) (base-converter (floor (/ n 25))))]))
 }
+
+/*  num_string: Takes in a number. Returns string version of it.
+ * inputs:
+ * 	unsigned int num - value to be converted
+ * outputs:
+ *  string - string value
+ */
+
+// string num_string(unsigned int num){
+// 	if (num == 0){
+// 		return "0";
+// 	}
+// 	if (num == 1){
+// 		return "1";
+// 	}
+// 	if (num == 2){
+// 		return "2";
+// 	}
+// 	if (num == 3){
+// 		return "3";
+// 	}
+// 	if (num == 4){
+// 		return "4";
+// 	}
+// 	if (num == 5){
+// 		return "5";
+// 	}
+// 	if (num == 6){
+// 		return "6";
+// 	}
+// 	if (num == 7){
+// 		return "7";
+// 	}
+// }
+
+
+/*  reverse: Takes in a number. Reverses it
+ * inputs:
+ * 	unsigned int num - value to be reversed
+ * outputs:
+ *  unsigned int - Reversed value
+ */
+ unsigned int reverse(unsigned int num) {
+	 printf("%u\n", num);
+	 if (num < 10){
+		 return num;
+	 }
+	 else {
+		 unsigned int last_digit = (num % 10);
+		 printf("%u\n", last_digit);
+		 return (reverse( num / 10 ) + last_digit));
+	 }
+ }
+
+
+ /*  print_backwards_base_8: Takes in a number in base 10. Switchs to base 8
+  * then it reverses it
+  * inputs:
+  * 	unsigned int num - value to be converted/reversed
+  * outputs:
+  *  nothing. Function prints the new value
+  */
+ void print_backwards_base_8(unsigned int num) {
+	 reverse(num);
+ 	//	printf("%u\n", reverse(num));
+//	 printf("%u\n", base_converter_8(num));
+	 //printf("%u\n", reverse(base_converter_8(num)));
+ }
