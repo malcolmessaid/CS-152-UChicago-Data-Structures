@@ -334,6 +334,4 @@ void play_mastermind()
 	}
 	printf("You lost. You ran out of guesses\n");
 
-
-
 }
