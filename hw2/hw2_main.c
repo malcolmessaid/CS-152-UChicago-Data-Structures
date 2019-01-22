@@ -31,12 +31,6 @@ unsigned int print_menu() {
 
 
 // TEST FUNCTIONS BELONG HERE
-// void print_backwards_base_8_test(unsigned int num, string expected){
-// 	printf("Expected value for print_number_grid: %s\n", expected);
-// 	printf("Actual value for print_number_grid:");
-// 	print_backwards_base_8(num);
-// }
-
 int main() {
     int choice = 0;
 
