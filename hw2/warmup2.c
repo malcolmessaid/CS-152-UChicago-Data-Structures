@@ -81,20 +81,29 @@ void print_n_times(unsigned int width){
  *   nothing returned, just printed to the screen
  */
 
-void recursive_sideway_helper(unsigned int width, unsigned int height, unsigned int max){
+void recursive_sideway_helper(unsigned int width, unsigned int height, unsigned int max, unsigned int original_width){
 
 	if (height == 1){
-    print_n_times(width);
+	//	printf("here base\n");
+    print_n_times(original_width);
   }
 
-	else if (height <= (max/2)){
+	else if (height == (max/2)){
+	//	printf("here 2\n");
+		width--;
 		print_n_times(width);
-		recursive_sideway_helper(--width, --height, max);
+		recursive_sideway_helper((width - 1), --height, max, original_width);
+	}
+
+	else if (height < (max/2)){
+	//	printf("here 3\n");
+		print_n_times(width);
+		recursive_sideway_helper(--width, --height, max, original_width);
 	}
 
 	else {
     print_n_times(width);
-		recursive_sideway_helper(++width, --height, max);
+		recursive_sideway_helper(++width, --height, max, original_width);
   }
 
 }
@@ -111,23 +120,8 @@ void recursive_sideway_helper(unsigned int width, unsigned int height, unsigned 
 
 void draw_sideways_wedge_rec(unsigned int width, unsigned int height)
 {
+	recursive_sideway_helper(width, height, height, width);
 
-	if (height <= 0) {
-		fprintf(stderr, "draw_sideways_wedge_rec:  height must be positive");
-		return;
-	}
-
-	if (width <= 0) {
-		fprintf(stderr, "draw_sideways_wedge_rec:  width must be positive");
-		return;
-	}
-
-	recursive_sideway_helper(width, height, height);
-
-
-	if (height == 0){
-		print_n_times(width);
-	}
 }
 
 
@@ -163,7 +157,6 @@ void draw_sideways_wedge_iter(unsigned int width, unsigned int height)
 		printf("\n");
 		width--;
 	}
-
 }
 
 /* draw_halves_down
@@ -208,7 +201,4 @@ unsigned int draw_halves_up(unsigned int width)
 		print_n_times(width);
 		return (width + temp);
 	}
-
-	// fprintf(stderr,"error draw_halves_up: not yet implemented\n");
-	// return 0;
 }

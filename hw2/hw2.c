@@ -3,6 +3,12 @@
 #include "hw2.h"
 #include <math.h>
 
+/*  play_5_qs_instructions: Gives instructions to user and prompts user.
+ * inputs:
+ * 	None
+ * outputs:
+ *  None
+ */
 void play_5_qs_instructions()
 {
 	printf("Choose one of the following items to think about:\n");
@@ -82,8 +88,7 @@ void determine_answer(unsigned int n[]){
  * outputs:
  *  nothing
  */
-void play_5_questions()
-{
+void play_5_questions() {
 	unsigned int response;
 	unsigned int responses[5];
 
@@ -104,6 +109,12 @@ void play_5_questions()
 	printf("Is it alive? ");
 	scanf("%u", &response);
 	responses[1] = response;
+
+	if (response > 1) {
+		fprintf(stderr, "error play_5_questions:  response be 1 or 0\n");
+		return;
+	}
+
 
 	printf("Is it found indoors? ");
 	scanf("%u", &response);
