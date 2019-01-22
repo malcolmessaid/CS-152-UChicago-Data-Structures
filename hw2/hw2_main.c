@@ -4,8 +4,7 @@
 #include "hw2.h"  // see how we're including the file again?
 #include "mastermind.h" // another one!?! So that this code can be separate
 
-void print_backwards_base_8_wrapper()
-{
+void print_backwards_base_8_wrapper() {
 	unsigned int number;
         printf("What number would you like me to print? ");
         scanf("%u", &number);
@@ -18,8 +17,7 @@ void print_backwards_base_8_wrapper()
 // are implementing. This test function will call the function
 // and compare the result to the expected result.
 
-unsigned int print_menu()
-{
+unsigned int print_menu() {
 	unsigned int result;
 	printf("\t0: Exit\n");
 	printf("\t1: Mastermind\n");
@@ -33,15 +31,39 @@ unsigned int print_menu()
 
 
 // TEST FUNCTIONS BELONG HERE
+// void print_backwards_base_8_test(unsigned int num, string expected){
+// 	printf("Expected value for print_number_grid: %s\n", expected);
+// 	printf("Actual value for print_number_grid:");
+// 	print_backwards_base_8(num);
+// }
 
-
-
-int main()
-{
+int main() {
     int choice = 0;
 
-    do
-    {
+		// Tests for print_backwards_base_8
+		printf("\n");
+		printf("Tests for print_backwards_base_8 \n");
+		printf("\n");
+
+		printf("Expected value for print_number_grid(24):03\n");
+		printf("Actual value for print_number_grid(24):");
+		print_backwards_base_8(24);
+		printf("\n");
+		printf("\n");
+
+		printf("Expected value for print_number_grid(28):43\n");
+		printf("Actual value for print_number_grid(28):");
+		print_backwards_base_8(28);
+		printf("\n");
+		printf("\n");
+
+		printf("Expected value for print_number_grid(66):201\n");
+		printf("Actual value for print_number_grid(66):");
+		print_backwards_base_8(66);
+		printf("\n");
+		printf("\n");
+
+    do {
 	choice = print_menu();
 
 	switch (choice) {
