@@ -112,23 +112,36 @@ int computer_move(char board[3][3], char player, unsigned int *row, unsigned int
 		}
 
 
-		int i, j;
-//		char temp[3][3];
-	//	temp = board;
+		int i, j, a, b;
+		char temp[3][3];
+		for (i = 0; i < 3; i++) {
+			for (j = 0; j < 3; j++) {
+				temp[i][j] = board[i][j];
+			}
+
+		}
 		// Win or prevent from winning
 		for (i = 0; i < 3; i++) {
-		//	temp = board;
+
+			// Sets temp
+			for (a = 0; a < 3; a++) {
+				for (b = 0; b < 3; b++) {
+					temp[i][j] = board[i][j];
+				}
+			}
+
 			for (j = 0; j < 3; j++) {
 				if (player_won(board, player, i, j) == 1){
 					*row = i;
 					*col = j;
 					return 1;
 				}
-				// else if (player_won( , opp , i , j) == 1){
-				// 	*row = i;
-				// 	*col = j;
-				// 	return 1;
-				// }
+				place_piece(temp, opp, i, j);
+				if (player_won( temp, opp , i , j) == 1){
+					*row = i;
+					*col = j;
+					return 1;
+				}
 			}
 		}
 
@@ -221,6 +234,8 @@ int computer_move(char board[3][3], char player, unsigned int *row, unsigned int
 		 }
 
 		 // CHECK IF ITS A TIE, PRINT PROPERLY, CHANGE PLAYERS
+		 // Use computer move to check if its a tie. It will be able to move if there
+		 // is a move.
 	 }
 
 

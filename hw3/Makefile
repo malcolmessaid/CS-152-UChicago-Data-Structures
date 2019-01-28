@@ -1,0 +1,8 @@
+tictactoe: tictactoe_funcs.h tictactoe_funcs.c tictactoe.c
+	clang -Wall tictactoe_funcs.c tictactoe.c -o tictactoe
+
+othello: othello_funcs.h othello_funcs.c othello.c
+	clang -Wall othello_funcs.c othello.c -o othello
+
+warmup3: warmup3.h warmup3_main.c warmup3.c
+	clang warmup3_main.c warmup3.c -o warmup3
