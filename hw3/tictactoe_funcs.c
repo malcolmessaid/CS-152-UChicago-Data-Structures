@@ -5,12 +5,20 @@
 
 
 
+
+/*  print_tic_tac_toe_board: prints the current boad
+ * inputs:
+ * 	char board[3][3] - current state of board
+ * outputs:
+ *  nothing
+ */
+
 void print_tic_tac_toe_board( char board[3][3] )
 {
 	unsigned int i, j;
-	for (i = 0;i<3;i++)
+	for (i = 0; i < 3; i++)
 	{
-		for (j = 0;j < 3; j++)
+		for (j = 0; j < 3; j++)
 		{
 			printf("%c ",board[i][j]);
 		}
@@ -18,13 +26,11 @@ void print_tic_tac_toe_board( char board[3][3] )
 	}
 }
 
-
-/*  print_backwards_base_8: Takes in a number in base 10. Switchs to base 8
- * then it reverses it
+/*  init_board: Fills a tictactoe board with asteriks
  * inputs:
- * 	unsigned int num - value to be converted/reversed
+ * 	char board[3][3] - initlized 3 by 3 array.
  * outputs:
- *  nothing. Function prints the new value
+ *  nothing
  */
 
 void init_board(char board[3][3]) {
@@ -44,9 +50,13 @@ void init_board(char board[3][3]) {
  * unsigned int col - col to move to
  * outputs:
  *  If move made, return 1. If not, return 0.
- */
+
+
 unsigned int place_piece(char board[3][3], char player, unsigned int row, unsigned int col){
-	if ((row >= 3) || (col >= 3)){
+	if ((row > 2) || (col > 2)){
+		return 0;
+	}
+	else if ((board[row][col] == 'X') || (board[row][col] == 'O')) {
 		return 0;
 	}
 	else {
@@ -86,8 +96,6 @@ int player_won(char board[3][3], char player, unsigned int row, unsigned int col
 	}
 
 	return 0;
-
-
 }
 
 
@@ -100,7 +108,6 @@ int player_won(char board[3][3], char player, unsigned int row, unsigned int col
  * outputs:
  *  If move made, return 1. If not, return 0.
  */
-
 int computer_move(char board[3][3], char player, unsigned int *row, unsigned int *col) {
 		// Determing whose turn it is
 		char opp;
@@ -118,8 +125,8 @@ int computer_move(char board[3][3], char player, unsigned int *row, unsigned int
 			for (j = 0; j < 3; j++) {
 				temp[i][j] = board[i][j];
 			}
-
 		}
+
 		// Win or prevent from winning
 		for (i = 0; i < 3; i++) {
 
@@ -181,76 +188,86 @@ int computer_move(char board[3][3], char player, unsigned int *row, unsigned int
 
 
 
-	// printf("Player %c, in what column (0-2) will you place your next piece? ",...);
-	// scanf("%u",...);
-	// printf("Player %c, that is not a valid column. Try again. "...); // ask for column again
-	// printf("That is not a valid move. Try again. "...); // go back and ask for row again
-	// printf("Congratulations! Player %c won!",...);
-	// printf("Tie game!",...);
-	//
+	/*  switch_player: Returns opposite player of whose turn it is
+	 * inputs:
+	 *  char player -- whose move it is
+	 * outputs:
+	 *  char -- opposite player of input
+	 */
+	char switch_player(char player) {
+		if (player == 'X'){
+			return 'O';
+		}
+		else {
+			return 'X';
+		}
+	}
+
+
+
+	/*  play_tic_tac_toe: Game loop which implements above functions for 2 players to
+	 * play tictactoe
+	 * inputs:
+	 *   none - Info gathered through scan
+	 * outputs:
+	 *  None. all print statements
+	 */
 
  void play_tic_tac_toe() {
-	 int row = 0;
-	 int col = 0;
+
+	 unsigned int row = 0;
+	 unsigned int col = 0;
+	 unsigned int *r, *c;
+	 r = &row;
+	 c = &col;
+
+
 	 char player = 'X';
+
+
+
 	 char board[3][3];
+	 init_board(board);
 
 
-	 while (player_won(board, player, row, col) != 1){
+	 while (computer_move(board, player, r, c) != 0){
 		 // Define row
 		 printf("Player %c, in what row (0-2) will you place your next piece? \n", player);
 		 scanf("%u", &row);
 
-		 while ((row < 0) || (row >2)) {
+		 while ((row > 2)) {
 		 	printf("Player %c, that is not a valid row. Try again. \n", player); // ask for row again
 			printf("Player %c, in what row (0-2) will you place your next piece? ", player);
 			scanf("%u",&row);
 		 }
 
 		 // Define col
-		 printf("Player %c, in what column (0-2) will you place your next piece? ", player);
+		 printf("Player %c, in what column (0-2) will you place your next piece? \n", player);
 		 scanf("%u",&col);
 
-		 while ((col < 0) || (col > 2)) {
-			printf("Player %c, that is not a valid row. Try again. ", player); // ask for row again
+		 while ((col > 2)) {
+	 	 	printf("Player %c, that is not a valid column. Try again. \n", player); // ask for column again
+			printf("Player %c, in what column (0-2) will you place your next piece? ", player);
 			scanf("%u",&col);
 		 }
 
 
 		 // Move the piece
 		 if (place_piece(board, player, row, col) == 0){
-			 	printf("That is not a valid move. Try again. ");
+			 	printf("That is not a valid move. Try again. \n");
+				print_tic_tac_toe_board(board);
+		 }
+		 else if (player_won(board, player, row, col) == 1){
+			 	printf("Congratulations! Player %c won! \n", player);
+				print_tic_tac_toe_board(board);
+			 	return;
 		 }
 		 else {
-			 	print_tic_tac_toe_board(board);
+				print_tic_tac_toe_board(board);
+				player = switch_player(player);
 		 }
-
-		 if (player_won(board, player, row, col) == 1){
-			 printf("Congratulations! Player %c won!", player);
-			 return;
-		 }
-		 else {
-
-		 }
-
-		 // CHECK IF ITS A TIE, PRINT PROPERLY, CHANGE PLAYERS
-		 // Use computer move to check if its a tie. It will be able to move if there
-		 // is a move.
 	 }
 
+	 	printf("Tie game!\n");
 
-
-
-
-
-
-
-
-
-
-
-
-
-	 // fprintf(stderr, "error play_tic_tac_toe not yet implemented\n");
-   // return;
  }

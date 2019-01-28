@@ -15,6 +15,7 @@ int main(){
 //  printf("Problem 3 Test\n");
   place_piece(board3,'A', 1, 1);
 
+  printf("hello\n");
 
   player_won(board3,'A', 1, 1);
 
