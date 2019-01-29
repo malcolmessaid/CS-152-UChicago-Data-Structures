@@ -52,7 +52,12 @@ int remove_max(int array[], unsigned int length) {
 }
 
 
-// Problem 2
+/*  init_board: Fills a tictactoe board with asteriks
+ * inputs:
+ * 	char board[3][3] - initlized 3 by 3 array.
+ * outputs:
+ *  nothing
+ */
 void init_board(char board[3][3]) {
 	int i, j;
 	for (i = 0; i < 3; i++){
@@ -60,13 +65,18 @@ void init_board(char board[3][3]) {
 			board[i][j] = '*';
 		}
 	}
-
-//  fprintf(stderr, "error init_board not yet implemented\n");
-//	return;
 }
 
 
-// Problem 3
+/*  place_piece: Places piece on the board, if a valid move.
+ * inputs:
+ * 	char board[3][3] -- current board
+ *  char player -- whose move it is
+ * unsigned int row - row to move to
+ * unsigned int col - col to move to
+ * outputs:
+ *  If move made, return 1. If not, return 0.
+*/
 unsigned int place_piece(char board[3][3], char player, unsigned int row, unsigned int col){
 	if ((row >= 3) || (col >= 3)){
 		return 0;
