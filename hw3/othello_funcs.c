@@ -74,17 +74,21 @@ void init_board(char board[8][8]) {
  *  int diry - Y direction looking
  * outputs:
  *  If in line, return 1. If not, return 0.
-*/
+ */
 unsigned int surroundings(char board[8][8], char player, unsigned int row, unsigned int col, int dirx, int diry){
 
-  if ((row + diry) > 8 || ((row + diry) < 0) || ((col + dirx) > 8) || ((col + dirx) < 0)){
+  if ((row + diry) > 8 || ((col + dirx) > 8)){
       return 0;
     }
   if (board[row + diry][col + dirx] == '*'){
     return 0;
   }
   else if (board[row + diry][col + dirx] == switch_player(player)) {
-    surroundings(board, player, (row + diry), (col + dirx), dirx, diry);
+    // printf("add stuff in surr\n");
+    // printf("dir y %u\n", (row + diry));
+    // printf("dir x%u\n", (col + dirx));
+    // printf("surr %u\n", surroundings(board, player, (row + diry), (col + dirx), dirx, diry));
+    return surroundings(board, player, (row + diry), (col + dirx), dirx, diry);
   }
   else if (board[row + diry][col + dirx] == player) {
     return 1;
@@ -105,8 +109,8 @@ unsigned int surroundings(char board[8][8], char player, unsigned int row, unsig
 */
 unsigned int in_line(char board[8][8], char player, unsigned int row, unsigned int col){
   int i,j;
-  for ( i = 0; i < 8; i++) {
-    for ( j = 0; j < 8; j++) {
+  for ( i = -1; i < 2; i++) {
+    for ( j = -1; j < 2; j++) {
       if (i != 0 || j != 0){
         if (surroundings(board, player, row, col, i, j) == 1){
           return 1;
@@ -130,13 +134,26 @@ unsigned int flip_pieces(char board[8][8], unsigned int row, unsigned int col) {
   int i, j, count;
   char player = board[row][col];
   count = 0;
-  for ( i = 0; i < count; i++) {
-    for ( j = 0; j < count; j++) {
+  for ( i = -1; i < 2; i++) {
+    for ( j = -1; j < 2; j++) {
       if (i != 0 || j != 0){
+        // printf("surr in flip %u \n", surroundings(board, player, row, col, i,j));
+        // if (surroundings(board, player, row, col, i,j))
+        // printf("surr in flip dirx %d", i);
+        // printf("surr in flip diry %d\n", j);
         if (surroundings(board, player, row, col, i, j) == 1){
-          while (board[row + i][col + j] == switch_player(player)){
+          // printf("added stuff in flip\n");
+          // printf("row %u\n", row);
+          // printf("col %u\n", col);
+          // printf("i %u\n", i);
+          // printf("j %u\n", j);
+          // printf("stone %c\n", board[row + j][col + i]);
+          // printf("hell0s\n");
+          while (board[row + j][col + i] == switch_player(player)){
             count++;
-            board[row + i][col + j] = player;
+            board[row + j][col + i] = player;
+            row += j;
+            col += i;
           }
         }
       }
@@ -156,16 +173,20 @@ unsigned int flip_pieces(char board[8][8], unsigned int row, unsigned int col) {
 */
 unsigned int place_piece(char board[8][8], char player, unsigned int row, unsigned int col){
   if ((board[row][col] == 'W') || (board[row][col] == 'B')){
+    printf("1\n");
     return 0;
   }
 
   if (in_line(board, player, row, col) == 0){
+    printf("2\n");
     return 0;
   }
   board[row][col] = player;
+  print_othello_board(board);
   unsigned int flipped = flip_pieces(board, row, col);
   if (flipped == 0){
     board[row][col] = '*';
+    printf("3\n");
     return 0;
   }
   else {
@@ -234,6 +255,13 @@ int computer_move(char board[8][8], char player, unsigned int *row, unsigned int
 
 
 
+/*  play_othello: Game loop which implements above functions for 2 players to
+ * play othello
+ * inputs:
+ *   none - Info gathered through scan
+ * outputs:
+ *  None. all print statements
+ */
 
 void play_othello() {
 

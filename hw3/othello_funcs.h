@@ -36,6 +36,7 @@ void print_othello_board( char board[8][8] );
 
 unsigned int flip_pieces(char board[8][8], unsigned int row, unsigned int col);
 
+
 /*  place_piece: Places piece on the board, if a valid move.
  * inputs:
  * 	char board[8][8] -- current board
@@ -48,47 +49,36 @@ unsigned int flip_pieces(char board[8][8], unsigned int row, unsigned int col);
 unsigned int place_piece(char board[8][8], char player, unsigned int row, unsigned int col);
 
 
+
+/*  player: determines winner from board of finished game
+ * inputs:
+ * 	char board[8][8] -- current board
+ * outputs:
+ *  char -- char of winner. '*' if a tie
+*/
 char player_won(char board[8][8]);
 
+
+
+/*  computer_move: Chooses valid move given board and player turn. Returns move
+ * inputs:
+ * 	char board[8][8] -- current board
+ *  char player -- whose move it is
+ * unsigned int *row - pointer to be used to return move row
+ * unsigned int *col - pointer to be used to return move col
+ * outputs:
+ *  If move made, return 1. If not possible, return 0.
+ */
 int computer_move(char board[8][8], char player, unsigned int *row, unsigned int *col);
 
 
+/*  play_othello: Game loop which implements above functions for 2 players to
+ * play othello
+ * inputs:
+ *   none - Info gathered through scan
+ * outputs:
+ *  None. all print statements
+ */
 void play_othello();
+
 #endif
-
-
-// // East
-// if (surroundings(board, player,row, col, 1, 0) == 1) {
-//   return 1;
-// }
-// // West
-// else if (surroundings(board, player,row, col, -1, 0) == 1) {
-//     return 1;
-// }
-// // North
-// else if (surroundings(board, player,row, col, 0, -1) == 1) {
-//   return 1;
-// }
-// // South
-// else if (surroundings(board, player,row, col, 0, 1) == 1) {
-//   return 1;
-// }
-// // North - East
-// else if (surroundings(board, player,row, col, 1, -1) == 1) {
-//   return 1;
-// }
-// // North - West
-// else if (surroundings(board, player,row, col, -1, -1) == 1) {
-//   return 1;
-// }
-// // South - East
-// else if (surroundings(board, player,row, col, 1, 1) == 1) {
-//   return 1;
-// }
-// // South - West
-// else if (surroundings(board, player,row, col, -1, 1) == 1) {
-//   return 1;
-// }
-// else {
-//   return 0;
-// }
