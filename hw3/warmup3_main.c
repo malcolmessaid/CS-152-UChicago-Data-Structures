@@ -69,15 +69,49 @@ unsigned int place_piece_test(char board[3][3], char player, unsigned int row, u
     return 0;
   }
 }
-
-void area_and_perimeter_test(double height, double length, double *area, double *perimeter){
-
+/*  area_and_perimeter_test: tests area_and_perimeter
+ * inputs:
+ * 	double height - height
+ *  double length - length
+ * double *area - pointer to return area
+* double *perimeter - pointer to return area perimeter
+ * outputs:
+ *  1 if passed. 0 if Failed.
+*/
+int area_and_perimeter_test(double height, double length, double *area, double *perimeter, double expectedArea, double expectedPerimeter){
+  area_and_perimeter(height, length, area, perimeter);
+  if (*area == expectedArea && *perimeter == expectedPerimeter){
+      printf("Test Passed\n");
+      return 1;
+    }
+    else {
+      printf("Test Failed\n");
+      return 0;
+    }
 }
 
-// Problem 5
-int remove_max_in_out_test(int array[], unsigned int *length){
 
+/*  remove_max_in_out: takes in array, removes max and changes length
+ * inputs:
+ * 	int array[] -- array to be removed from
+ *  unsigned int *length --- lengh pointer to change
+ * outputs:
+ *  1 if passed. 0 if Failed.
+*/
+
+int remove_max_in_out_test(int array[], unsigned int *length, int expected[], unsigned int lengthExpect){
+  remove_max_in_out(array, length);
+  int i;
+  for (i = 0; i < lengthExpect; i++) {
+    if (array[i] != expected[i]){
+      printf("Test Failed\n");
+      return 0;
+    }
+  }
+  printf("Test Passed\n");
+  return 1;
 }
+
 
 int main() {
   // Problem 1
@@ -115,20 +149,37 @@ int main() {
  permi = 0.0;
  a = &area;
  p = &permi;
- area_and_perimeter(3, 4, a, p);
+
  // How do you print a pointer
  printf("Problem 4 Test\n");
- printf("%f\n", area);
- printf("%f\n\n", permi);
+ area_and_perimeter_test(3, 4, a, p, 12, 14);
+ area_and_perimeter_test(2, 3, a, p, 6, 10);
+ area_and_perimeter_test(1, 1, a, p, 1, 4);
 
   // Problem 5
   int test5[] = {1, 3, 6, 5, 6, 2, 3};
-  unsigned int *len;
+  int test6[] = {1};
+  int test7[] = {1, 6, 3};
+
+  int test5e[] = {1, 3, 5, 2, 3};
+  int test6e[] = {};
+  int test7e[] = {1, 3};
+
+  unsigned int *len5;
+  unsigned int *len6;
+  unsigned int *len7;
   unsigned int length5 = 7;
-  len = &length5;
+  unsigned int length6 = 1;
+  unsigned int length7 = 3;
+  len5 = &length5;
+  len6 = &length6;
+  len7 = &length7;
+
   printf("Problem 5 Test\n");
-  printf("%d\n",remove_max_in_out(test5, len));
-  printf("%d\n\n", length5);
+  remove_max_in_out_test(test5, len5, test5e, 5);
+  remove_max_in_out_test(test6, len6, test6e, 0);
+  remove_max_in_out_test(test7, len7, test7e, 2);
+
 
 
   return 0;

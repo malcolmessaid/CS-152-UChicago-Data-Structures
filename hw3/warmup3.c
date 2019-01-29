@@ -88,13 +88,30 @@ unsigned int place_piece(char board[3][3], char player, unsigned int row, unsign
 }
 
 
-// Problem 4
+/*  area_and_perimeter: finds area and premieter given height and length
+ * inputs:
+ * 	double height - height
+ *  double length - length
+ * double *area - pointer to return area
+* double *perimeter - pointer to return area perimeter
+ * outputs:
+ *  Void. POinters used to set area and perimeter
+*/
 void area_and_perimeter(double height, double length, double *area, double *perimeter){
 	*area = height * length;
 	*perimeter = (2 * height) + (2 * length);
 }
 
-// Problem 5
+/*  remove_max_in_out: takes in array, removes max and changes length
+ * inputs:
+ * 	int array[] -- array to be removed from
+ *  unsigned int *length --- lengh pointer to change
+ * double *area - pointer to return area
+* double *perimeter - pointer to return area perimeter
+ * outputs:
+ *  Max. change array and length
+*/
+
 int remove_max_in_out(int array[], unsigned int *length){
 
 		if (*length == 0) {
