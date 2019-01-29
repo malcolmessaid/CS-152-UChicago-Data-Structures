@@ -106,10 +106,8 @@ void area_and_perimeter(double height, double length, double *area, double *peri
  * inputs:
  * 	int array[] -- array to be removed from
  *  unsigned int *length --- lengh pointer to change
- * double *area - pointer to return area
-* double *perimeter - pointer to return area perimeter
  * outputs:
- *  Max. change array and length
+ *  Max. change array and length. 
 */
 
 int remove_max_in_out(int array[], unsigned int *length){
