@@ -9,7 +9,15 @@
  */
 int count_vowels(char *str)
 {
-	return 0;
+	// length of string
+int i,count;
+	count = 0;
+	for (i = 0; *str[i] != '\O'; i++) {
+		if ((*str[i] == 'a') || (*str[i] == 'u') || (*str[i] == 'o') || (*str[i] == 'i') || (*str[i] == 'e')){
+			count++;
+		}
+	}
+	return count;
 }
 
 /* make_lowercase
@@ -19,7 +27,12 @@ int count_vowels(char *str)
  */
 void make_lowercase(char *str)
 {
-	;
+	int i;
+	for (i = 0; *str[i] != '\O'; i++) {
+		if (*str[i] <91 && *str[i] > 64){
+			*str[i] = (*str[i] + 32);
+		}
+	}
 }
 
 /* make_horizontal_stripes
