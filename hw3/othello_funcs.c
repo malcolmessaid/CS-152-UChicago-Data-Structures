@@ -5,113 +5,171 @@
 
 
 
-
-void print_othello_board( char board[8][8] )
-{
-        unsigned int i, j;
-        for(i=0;i<8;i++)
-        {
-                for(j=0;j<8;j++)
-                {
-                        printf("%c ",board[i][j]);
-                }
-                printf("\n");
-        }
-}
-
-/*  print_backwards_base_8: Takes in a number in base 10. Switchs to base 8
- * then it reverses it
+/*  print_othello_board: Prints
  * inputs:
  * 	unsigned int num - value to be converted/reversed
  * outputs:
  *  nothing. Function prints the new value
  */
-int remove_max(int array[], unsigned int length) {
+void print_othello_board( char board[8][8] )
+{
+  unsigned int i, j;
+  for (i = 0; i < 8; i++)
+  {
+    for (j = 0;j < 8; j++)
+    {
+      printf("%c ",board[i][j]);
+    }
+    printf("\n");
+  }
+}
 
-	if (length == 0) {
-		return INT_MIN;
-	}
 
+
+/*  init_board: Sets board up for beginning of game
+ * inputs:
+ * 	char board[8][8] - empty, but initalzied 8 by 8 array
+ * outputs:
+ *  nothing. just sets array
+ */
+void init_board(char board[8][8]) {
 	int i, j;
-	int max = array[0];
-//	int index = 0;
-	for (i = 0; i < length; i++){
-		if (array[i] > max) {
-			max = array[i];
-		}
-	}
 
-	for(i = 0; i < (length - 1) ; i++){
-		if (array[i] == max){
-			for (j = i; j < length; j++) {
-				array[j] = array[j+1];
-			}
-			i--;
-		}
-	}
-	// for (i = 0; i < length; i++) {
-	// 	printf("%d\n", array[i]);
-	// }
+  for (i = 0; i < 8; i++) {
+    for (j = 0; j < 8; j++) {
+      board[i][j] = '*';
+    }
+  }
+  board[3][3] = 'W';
+  board[4][4] = 'W';
 
-	return max;
+  board[3][4] = 'B';
+  board[4][3] = 'B';
 }
 
 
-// Problem 2
-void init_board(char board[3][3]) {
-	int i, j;
-	for (i = 0; i < 3; i++){
-		for(j = 0; j < 3; j++){
-			board[i][j] = '*';
+	/*  switch_player: Returns opposite player of whose turn it is
+	 * inputs:
+	 *  char player -- whose move it is
+	 * outputs:
+	 *  char -- opposite player of input
+	 */
+	char switch_player(char player) {
+		if (player == 'W'){
+			return 'B';
+		}
+		else {
+			return 'W';
 		}
 	}
 
-//  fprintf(stderr, "error init_board not yet implemented\n");
-//	return;
+
+/*  surroundings: Checks if placed stone is in the line of another stone of same color in a given direction
+ * inputs:
+ * 	char board[8][8] -- current board
+ *  char player -- whose move it is
+ * unsigned int row - row moved to
+ * unsigned int col - col moved to
+ *  int dirx - X direction looking
+ *  int diry - Y direction looking
+ * outputs:
+ *  If in line, return 1. If not, return 0.
+*/
+unsigned int surroundings(char board[8][8], char player, unsigned int row, unsigned int col, int dirx, int diry){
+
+  if ((row + diry) > 8 || ((row + diry) < 0) || ((col + dirx) > 8) || ((col + dirx) < 0)){
+      return 0;
+    })
+  if (board[row + diry][col + dirx] == '*'){
+    return 0;
+  }
+  else if (board[row + diry][col + dirx] == switch_player(player)) {
+    surroundings(board, player, (row + diry), (col + dirx), dirx, diry);
+  }
+  else if (board[row + diry][col + dirx] == player) {
+    return 1;
+  }
 }
 
 
-// Problem 3
-unsigned int place_piece(char board[3][3], char player, unsigned int row, unsigned int col){
-	if ((row >= 3) || (col >= 3)){
-		return 0;
-	}
-	else {
-		board[row][col] = player;
-		return 1;
-	}
+/*  in_line: Checks if placed stone is in the line of another stone of same color
+ * inputs:
+ * 	char board[8][8] -- current board
+ *  char player -- whose move it is
+ * unsigned int row - row moved to
+ * unsigned int col - col moved to
+ *  int dirx - X direction looking
+ *  int diry - Y direction looking
+ * outputs:
+ *  If in line, return 1. If not, return 0.
+*/
+unsigned int in_line(char board[8][8], char player, unsigned int row, unsigned int col){
+  // East
+  if (surroundings(board, player,row, col, 1, 0) == 1) {
+    return 1;
+  }
+  // West
+  else if (surroundings(board, player,row, col, -1, 0) == 1) {
+      return 1;
+  }
+  // North
+  else if (surroundings(board, player,row, col, 0, -1) == 1) {
+    return 1;
+  }
+  // South
+  else if (surroundings(board, player,row, col, 0, 1) == 1) {
+    return 1;
+  }
+  // North - East
+  else if (surroundings(board, player,row, col, 1, -1) == 1) {
+    return 1;
+  }
+  // North - West
+  else if (surroundings(board, player,row, col, -1, -1) == 1) {
+    return 1;
+  }
+  // South - East
+  else if (surroundings(board, player,row, col, 1, 1) == 1) {
+    return 1;
+  }
+  // South - West
+  else if (surroundings(board, player,row, col, -1, 1) == 1) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
+}
+
+/*  place_piece: Places piece on the board, if a valid move.
+ * inputs:
+ * 	char board[8][8] -- current board
+ *  char player -- whose move it is
+ * unsigned int row - row to move to
+ * unsigned int col - col to move to
+ * outputs:
+ *  If move made, return 1. If not, return 0.
+*/
+unsigned int place_piece(char board[8][8], char player, unsigned int row, unsigned int col){
+  if ((board[row][col] == 'W') || (board[row][col] == 'B')){
+    return 0;
+  }
+
+  if (in_line(board, player, row, col) == 0){
+    return 0;
+  }
+  // PLACE PIECE BEFORE THIS I THINK.
+  // if (flip_pieces(board, row, col) == 0){
+  //   // REMOVE THE PLACED PIECE BECASE NOTHIGN WAS FLIPPPED
+  //   // RETURN 0
+  // }
+  else {
+    // IDK WHAT YOU'LL DO. BUT IF IT REACHES HERE THEN ITS A VALID MOVE CAUSE
+    // EVERYTHING ELSE PASSES AND IT FLIPS
+  }
 }
 
 
-// Problem 4
-void area_and_perimeter(double height, double length, double *area, double *perimeter){
-	*area = height * length;
-	*perimeter = (2 * height) + (2 * length);
-}
-
-// Problem 5
-int remove_max_in_out(int array[], unsigned int *length){
-
-		if (*length == 0) {
-			return INT_MIN;
-		}
-		int i, j;
-		int max = array[0];
-		int len = *length;
-		for (i = 0; i < len; i++){
-			if (array[i] > max) {
-				max = array[i];
-			}
-		}
-
-		for(i = 0; i < (len - 1) ; i++){
-			if (array[i] == max){
-				for (j = i; j < len; j++) {
-					array[j] = array[j+1];
-				}
-				i--;
-				(*length)--;
-			}
-		}
-		return max;
+unsigned int flip_pieces(char board[8][8], unsigned int row, unsigned int col) {
+  return 1;
 }

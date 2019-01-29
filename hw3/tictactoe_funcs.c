@@ -42,7 +42,7 @@ void init_board(char board[3][3]) {
 	}
 }
 
-/*  place_piece: Places piece on the board.
+/*  place_piece: Places piece on the board, if a valid move.
  * inputs:
  * 	char board[3][3] -- current board
  *  char player -- whose move it is
@@ -50,7 +50,7 @@ void init_board(char board[3][3]) {
  * unsigned int col - col to move to
  * outputs:
  *  If move made, return 1. If not, return 0.
-
+*/
 
 unsigned int place_piece(char board[3][3], char player, unsigned int row, unsigned int col){
 	if ((row > 2) || (col > 2)){
