@@ -6,7 +6,6 @@
 
 
 
-
 int main(){
   char board2[3][3];
   init_board(board2);
@@ -28,5 +27,6 @@ int main(){
 
   computer_move(board3, 'A', r, c);
 
+//  I believe it works after copious testing.
   play_tic_tac_toe();
 }
