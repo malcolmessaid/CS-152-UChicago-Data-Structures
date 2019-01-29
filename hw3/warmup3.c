@@ -18,12 +18,12 @@ void print_tic_tac_toe_board( char board[3][3] )
 }
 
 
-/*  print_backwards_base_8: Takes in a number in base 10. Switchs to base 8
- * then it reverses it
+/*  remove_max: Removes max(es) from an array
  * inputs:
- * 	unsigned int num - value to be converted/reversed
+ * 	int array[] - array
+ * unisgned int - length
  * outputs:
- *  nothing. Function prints the new value
+ *  int - maximum that was removed
  */
 int remove_max(int array[], unsigned int length) {
 
@@ -48,10 +48,6 @@ int remove_max(int array[], unsigned int length) {
 			i--;
 		}
 	}
-	// for (i = 0; i < length; i++) {
-	// 	printf("%d\n", array[i]);
-	// }
-
 	return max;
 }
 
