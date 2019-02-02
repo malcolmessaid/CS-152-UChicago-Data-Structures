@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "warmup4.h"
 #include "hw4_provided.h"
+#include <math.h>
 
 /* count_vowels
  * search through str and count the number of vowels.
@@ -81,12 +82,12 @@ void make_horizontal_stripes(
 {
 
 	if (width > COLS){
-			fprintf(stderr, "error make_horizontal_stripes: width cannot be larger
-			than cols");
+			fprintf(stderr, "error make_horizontal_stripes: width cannot be larger"
+			"than cols");
 	}
 	if (height > ROWS){
-		fprintf(stderr, "error make_horizontal_stripes: height cannot be larger
-		than rows");
+		fprintf(stderr, "error make_horizontal_stripes: height cannot be larger"
+		"than rows");
 	}
 	int i,j,count, black;
 
@@ -141,9 +142,47 @@ void make_checker_board(
         unsigned int width,
         unsigned int height)
 {
-	fill_color(red, stripe_red);
-	fill_color(green, stripe_green);
-	fill_color(blue, stripe_blue);
+	if (width > COLS){
+			fprintf(stderr, "error make_checker_board: width cannot be larger"
+			"than cols");
+	}
+	if (height > ROWS){
+		fprintf(stderr, "error make_checker_board: height cannot be larger"
+		"than rows");
+	}
 
+	if (square_width == 0){
+		fill_color(red, 255);
+		fill_color(green, 255);
+		fill_color(blue, 255);
+	}
+
+	int i,j, k, m, starteri, starterj, odd;
+	starteri = 0;
+	starterj = 0;
+	odd = 1;
+
+	fill_color(red, square_red);
+	fill_color(green, square_green);
+	fill_color(blue, square_blue);
+
+
+	for (k = 0; k < (width / square_width); k++) {
+		for (m = 0; m < (width / square_width); m++) {
+			if ((odd % 2) == 0){
+				for (i = starteri; i < (starteri + square_width); i++) {
+					for (j = starterj; j < (starterj + square_width); j++) {
+						red[i][j] = 255;
+						green[i][j] = 255;
+						blue [i][j] = 255;
+					}
+				}
+			}
+			starterj += square_width;
+			odd++;
+		}
+		starterj = 0;
+		starteri += square_width;
+	}
 	provided_write_png("my_checkboard.png", red, green, blue, width, height);
 }
