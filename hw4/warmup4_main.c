@@ -3,6 +3,10 @@
 #include "hw4_provided.h"
 #include "warmup4.h"
 
+int count_vowels_test() {
+	
+}
+
 int main()
 {
 	// declare variables
