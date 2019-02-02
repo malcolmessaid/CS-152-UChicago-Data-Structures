@@ -17,9 +17,10 @@ int main()
 	// single call to each function.
 	// you need to write more test cases
 	// you need helper functions for exercises 1 and 2, not 3 and 4
-	count_vowels(str1);
+	printf("%d\n", count_vowels(str1));
 
 	make_lowercase(str1);
+	printf("%s\n", str1);
 
 /*
 	// read in ppm file
@@ -33,9 +34,9 @@ int main()
 
 
 	// put in arrays
-	make_horizontal_stripes(r, g, b, 1, 30, 144, 255, ROWS, COLS);
+	make_horizontal_stripes(r, g, b, 1, 30, 144, 255, 12, 12);
 	// print to html to view
-	provided_print_image_to_html("my_horiz_stripes.html",r,g,b,ROWS, COLS);
+	provided_print_image_to_html("my_horiz_stripes.html",r,g,b,12,12);
 
 	// put in arrays
 	make_checker_board(r,g,b,4,30,144,255, 12, 12);
