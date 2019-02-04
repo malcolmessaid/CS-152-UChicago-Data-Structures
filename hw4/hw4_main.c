@@ -22,5 +22,5 @@ int main()
 
 	provided_print_image_to_html("hide_image.html",res_r, res_g, res_b, 12,12);
 
-	encode("my_checkboard", "happyface.png", "happyface_coded.png");
+	encode("uchicago.png", "happyface.png", "happyface_coded.png");
 }
