@@ -1,6 +1,10 @@
 #ifndef HW4_H
 #define HW4_H
 
+
+#define ROWS 50
+#define COLS 50
+
 /* hide_image
  * Hides the one image in another given image, resulting in a final image.
  * inputs:
