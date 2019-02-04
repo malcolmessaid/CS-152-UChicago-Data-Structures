@@ -55,4 +55,17 @@
 	unsigned int height, unsigned int width);
 
 
+  /* encode
+     *  Performs actions of hide image, but takes files and returns a file
+     *   instead of arrays.
+     * inputs:
+     *   char *ref_filename - Oringal file that hidden gets hidden in.
+     *   char *hid_filename - File to be hidden in.
+     *   char *enc_filename - Encoded file
+     * output:
+      void -- a decoded version of hidden image
+   */
+  void encode(char *ref_filename, char *hid_filename, char *enc_filename);
+
+
 #endif

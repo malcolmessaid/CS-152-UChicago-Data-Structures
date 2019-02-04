@@ -167,3 +167,28 @@ void extract_image(
       }
     }
   }
+
+
+  /* encode
+     *  Performs actions of hide image, but takes files and returns a file
+     *   instead of arrays.
+     * inputs:
+     *   char *ref_filename - Oringal file that hidden gets hidden in.
+     *   char *hid_filename - File to be hidden in.
+     *   char *enc_filename - Encoded file
+     * output:
+      void -- a decoded version of hidden image
+   */
+void encode(char *ref_filename, char *hid_filename, char *enc_filename) {
+  // FILE *fp, *infle, *outfile;
+  //
+  // infile = fopen(*ref_filename, "r");
+  //
+  // if (infile == NULL){
+  //   fprintf(stderr, "Could not open file %s\n", *ref_filename);
+  //   exit(0);
+  // }
+  //
+
+  provided_read_png(ref_filename);
+}
