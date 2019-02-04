@@ -118,7 +118,7 @@ void hide_image(
       }
     }
 
-    	provided_write_png("hidden_image.png", res_r, res_g, res_b, width, height);
+  //  	provided_write_png("hidden_image.png", res_r, res_g, res_b, width, height);
   }
 
   /* white_or_black - Returns 255 or 0 based on if value is even or odd
@@ -161,9 +161,9 @@ void extract_image(
     int i,j;
     for (i = 0; i < height; i++) {
       for (j = 0; j < width; j++) {
-        hid_r[][] = white_or_black(res_r[i][j]);
-        hid_g[][] = white_or_black(res_g[i][j]);
-        hid_b[][] = white_or_black(res_b[i][j]);
+        hid_r[i][j] = white_or_black(res_r[i][j]);
+        hid_g[i][j] = white_or_black(res_g[i][j]);
+        hid_b[i][j] = white_or_black(res_b[i][j]);
       }
     }
   }
@@ -180,15 +180,29 @@ void extract_image(
       void -- a decoded version of hidden image
    */
 void encode(char *ref_filename, char *hid_filename, char *enc_filename) {
-  // FILE *fp, *infle, *outfile;
-  //
-  // infile = fopen(*ref_filename, "r");
-  //
-  // if (infile == NULL){
-  //   fprintf(stderr, "Could not open file %s\n", *ref_filename);
-  //   exit(0);
-  // }
-  //
 
-  provided_read_png(ref_filename);
+  unsigned int ref_r[ROWS][COLS];
+  unsigned int ref_g[ROWS][COLS];
+  unsigned int ref_b[ROWS][COLS];
+  unsigned int hid_r[ROWS][COLS];
+  unsigned int hid_g[ROWS][COLS];
+  unsigned int hid_b[ROWS][COLS];
+  unsigned int enc_r[ROWS][COLS];
+  unsigned int enc_g[ROWS][COLS];
+  unsigned int enc_b[ROWS][COLS];
+
+  unsigned int height = ROWS;
+  unsigned int width = COLS;
+
+  unsigned int *heightP = &height;
+  unsigned int *widthP = &width;
+//sdf
+  provided_read_png(ref_filename, ref_r, ref_g, ref_b, heightP, widthP);
+  provided_read_png(hid_filename, hid_r, hid_g, hid_b, heightP, widthP);
+
+  hide_image(ref_r, ref_g, ref_b, hid_r, hid_g, hid_b, enc_r, enc_g, enc_b,
+  height, width);
+
+  provided_write_png(enc_filename, enc_r, enc_g, enc_b, height, width);
+
 }
