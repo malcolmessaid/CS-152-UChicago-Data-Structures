@@ -4,17 +4,16 @@
 #include "warmup4.h"
 
 int count_vowels_test() {
-	
-}
 
+}
 int main()
 {
 	// declare variables
 	unsigned int r[ROWS][COLS];
-        unsigned int g[ROWS][COLS];
-        unsigned int b[ROWS][COLS];
-        unsigned int width;
-        unsigned int length;
+  unsigned int g[ROWS][COLS];
+  unsigned int b[ROWS][COLS];
+  unsigned int width;
+  unsigned int length;
 
 	char str1[] = {'H','o','w','d','y',' ','T','H','E','R','E','!','\0'};
 
