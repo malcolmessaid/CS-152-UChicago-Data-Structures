@@ -6,7 +6,7 @@
 
 /* count_vowels_test
  * Test for count_vowels
- * input: char *str - a string
+ * input: char *str - a string that is the input
  					int expected - expected value of test
  * output: 1 if passed. O if not.
  */
@@ -24,6 +24,12 @@ int count_vowels_test(char *input, int expected) {
 	}
 }
 
+/* make_lowercase_test
+ * Test for make_lowercase
+ * input: char *input - a string that is input
+ 					char *expected - expected value of test
+ * output: 1 if passed. O if not.
+ */
 int make_lowercase_test(char *input, char *expected) {
 	make_lowercase(input);
 	int i;
@@ -43,8 +49,6 @@ int main()
 	unsigned int r[ROWS][COLS];
   unsigned int g[ROWS][COLS];
   unsigned int b[ROWS][COLS];
-  unsigned int width;
-  unsigned int length;
 
 	char str1[] = {'H','o','w','d','y',' ','T','H','E','R','E','!','\0'};
 	char str2[] = {'M','a','L','c','o','l','m','E','S','S','S','A','I', 'D', '\0'};
@@ -61,7 +65,7 @@ int main()
 	// you need to write more test cases
 	// you need helper functions for exercises 1 and 2, not 3 and 4
 	count_vowels_test(str1, 3);
-	count_vowels_test(str2, 9);
+	count_vowels_test(str2, 5);
 	count_vowels_test(str3, 0);
 	count_vowels_test(str4, 0);
 
@@ -85,12 +89,26 @@ int main()
 
 	// put in arrays
 	make_horizontal_stripes(r, g, b, 1, 30, 144, 255, 12, 12);
-	// print to html to view
+
 	provided_print_image_to_html("my_horiz_stripes.html",r,g,b,12,12);
 
-	// put in arrays
+	make_horizontal_stripes(r, g, b, 1, 30, 144, 255, 3, 3);
+
+	provided_print_image_to_html("my_horiz_stripes1.html",r,g,b,3,3);
+// Error check
+	make_horizontal_stripes(r, g, b, 1, 30, 144, 255, 55,55);
+
+	// Tests for make_checker_board
 	make_checker_board(r,g,b,4,30,144,255, 12, 12);
-	// print to html to view
+
 	provided_print_image_to_html("my_checkboard.html",r,g,b,12, 12);
+
+	make_checker_board(r,g,b,1,30,144,255, 3, 3);
+
+	provided_print_image_to_html("my_checkboard1.html",r,g,b,3, 3);
+
+// Error check
+	make_checker_board(r,g,b,4,30,144,255, 55, 12);
+
 
 }
