@@ -83,11 +83,13 @@ void make_horizontal_stripes(
 
 	if (width > COLS){
 			fprintf(stderr, "error make_horizontal_stripes: width cannot be larger"
-			"than cols");
+			"than cols\n");
+			return;
 	}
 	if (height > ROWS){
 		fprintf(stderr, "error make_horizontal_stripes: height cannot be larger"
-		"than rows");
+		"than rows\n");
+			return;
 	}
 	int i,j,count, black;
 
@@ -144,11 +146,13 @@ void make_checker_board(
 {
 	if (width > COLS){
 			fprintf(stderr, "error make_checker_board: width cannot be larger"
-			"than cols");
+			"than cols\n");
+			return;
 	}
 	if (height > ROWS){
 		fprintf(stderr, "error make_checker_board: height cannot be larger"
-		"than rows");
+		"than rows\n");
+		return;
 	}
 
 	if (square_width == 0){
