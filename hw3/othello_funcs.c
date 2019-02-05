@@ -84,10 +84,6 @@ unsigned int surroundings(char board[8][8], char player, unsigned int row, unsig
     return 0;
   }
   else if (board[row + diry][col + dirx] == switch_player(player)) {
-    // printf("add stuff in surr\n");
-    // printf("dir y %u\n", (row + diry));
-    // printf("dir x%u\n", (col + dirx));
-    // printf("surr %u\n", surroundings(board, player, (row + diry), (col + dirx), dirx, diry));
     return surroundings(board, player, (row + diry), (col + dirx), dirx, diry);
   }
   else if (board[row + diry][col + dirx] == player) {
@@ -137,18 +133,7 @@ unsigned int flip_pieces(char board[8][8], unsigned int row, unsigned int col) {
   for ( i = -1; i < 2; i++) {
     for ( j = -1; j < 2; j++) {
       if (i != 0 || j != 0){
-        // printf("surr in flip %u \n", surroundings(board, player, row, col, i,j));
-        // if (surroundings(board, player, row, col, i,j))
-        // printf("surr in flip dirx %d", i);
-        // printf("surr in flip diry %d\n", j);
         if (surroundings(board, player, row, col, i, j) == 1){
-          // printf("added stuff in flip\n");
-          // printf("row %u\n", row);
-          // printf("col %u\n", col);
-          // printf("i %u\n", i);
-          // printf("j %u\n", j);
-          // printf("stone %c\n", board[row + j][col + i]);
-          // printf("hell0s\n");
           while (board[row + j][col + i] == switch_player(player)){
             count++;
             board[row + j][col + i] = player;
