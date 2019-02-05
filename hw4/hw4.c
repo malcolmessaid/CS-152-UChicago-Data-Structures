@@ -194,15 +194,42 @@ void encode(char *ref_filename, char *hid_filename, char *enc_filename) {
   unsigned int height = ROWS;
   unsigned int width = COLS;
 
-  unsigned int *heightP = &height;
-  unsigned int *widthP = &width;
-//sdf
-  provided_read_png(ref_filename, ref_r, ref_g, ref_b, heightP, widthP);
-  provided_read_png(hid_filename, hid_r, hid_g, hid_b, heightP, widthP);
+  provided_read_png(ref_filename, ref_r, ref_g, ref_b, &height, &width);
+  provided_read_png(hid_filename, hid_r, hid_g, hid_b, &height, &width);
 
   hide_image(ref_r, ref_g, ref_b, hid_r, hid_g, hid_b, enc_r, enc_g, enc_b,
   height, width);
 
   provided_write_png(enc_filename, enc_r, enc_g, enc_b, height, width);
+
+}
+
+
+/* decode
+   *  Decodes enocded file and returns a version of the original hidden file
+   * inputs:
+   *   char *enc_filename - File that has information coded into it
+   *   char *hid_filename - output parameter. version of the original hidden file
+   * output:
+    void -- a decoded version of hidden image
+ */
+  void decode(char *enc_filename, char *hid_filename) {
+
+  unsigned int hid_r[ROWS][COLS];
+  unsigned int hid_g[ROWS][COLS];
+  unsigned int hid_b[ROWS][COLS];
+  unsigned int enc_r[ROWS][COLS];
+  unsigned int enc_g[ROWS][COLS];
+  unsigned int enc_b[ROWS][COLS];
+
+  unsigned int height = ROWS;
+  unsigned int width = COLS;
+//sdf
+  provided_read_png(enc_filename, enc_r, enc_g, enc_b, &height, &width);
+//  provided_read_png(hid_filename, hid_r, hid_g, hid_b, heightP, widthP);
+
+  extract_image(enc_r, enc_g, enc_b, hid_r, hid_g, hid_b,height, width);
+
+  provided_write_png(hid_filename, hid_r, hid_g, hid_b, height, width);
 
 }

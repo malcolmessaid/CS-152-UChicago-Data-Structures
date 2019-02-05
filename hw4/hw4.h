@@ -71,6 +71,15 @@
   void encode(char *ref_filename, char *hid_filename, char *enc_filename);
 
 
+
+  /* decode
+     *  Decodes enocded file and returns a version of the original hidden file
+     * inputs:
+     *   char *enc_filename - File that has information coded into it
+     *   char *hid_filename - output parameter. version of the original hidden file
+     * output:
+      void -- a decoded version of hidden image
+   */
   void decode(char *enc_filename, char *hid_filename);
 
 
