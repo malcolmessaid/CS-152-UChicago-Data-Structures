@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "warmup5_provided.h"
 #include "warmup5.h"
 #include <math.h>
 
@@ -76,7 +77,6 @@ void write_value(int_vector *vector, unsigned int index, int value) {
 
   // If Spaces needs to be allocated
   if (vector->allocated_size <= index) {
-    int i;
     int orglen = vector->allocated_size;
 
     int *newArray;
@@ -113,4 +113,30 @@ int read_value(int_vector *vector, unsigned int index){
   else {
     return vector->array[index];
   }
+}
+
+
+/* make_and_init_image
+ *  Creates 2-d array of pixels of a given color.
+* input:
+ *    int height  -- Height of array
+ *    int width  -- Width of array
+ *    pixel color - color of pixels
+ * output: int - 2-d array pixels of color
+ */
+pixel** make_and_init_image(int height, int width, pixel color) {
+
+  pixel **array;
+  array = (pixel**)malloc(sizeof(pixel*) * height);
+
+  int i,j;
+  for (i = 0; i < height; i++) {
+    array[i] = (pixel*)malloc(sizeof(pixel) * width);
+
+    for (j = 0; j < width; j++) {
+      array[i][j] = color;
+    }
+  }
+
+  return array;
 }

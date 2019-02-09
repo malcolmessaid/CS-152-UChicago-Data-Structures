@@ -8,11 +8,11 @@ typedef struct {
 	int *array;
 } int_vector;
 
-typedef struct {
-	unsigned int red;
-	unsigned int green;
-	unsigned int blue;
-} pixel;
+// typedef struct {
+// 	unsigned int red;
+// 	unsigned int green;
+// 	unsigned int blue;
+// } pixel;
 
 
 
@@ -60,6 +60,15 @@ void write_value(int_vector *vector, unsigned int index, int value);
 int read_value(int_vector *vector, unsigned int index);
 
 
+
+/* make_and_init_image
+ *  Creates a double array of pixels of a given color.
+* input:
+ *    int height  -- Height of array
+ *    int width  -- Width of array
+ *    pixel color - color of pixels
+ * output: int - double 2-d array of pixel color
+ */
 pixel** make_and_init_image(int height, int width, pixel color);
 
 
