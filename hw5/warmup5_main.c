@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "warmup5_provided.h"
 #include "warmup5.h"
 
 
 int main(int argc, char const *argv[]) {
-
+  // IMPLEMENT COMMAND LINE TESTING
   // problem 1 tests
   char *str1;
   str1 = "malcolm";
@@ -33,6 +34,17 @@ int main(int argc, char const *argv[]) {
   printf("%d\n", read_value(vectorTest, 1));
   printf("Should be 0: ");
   printf("%d\n", read_value(vectorTest, 10));
+
+
+  pixel blue;
+  blue.red = 0;
+  blue.blue = 255;
+  blue.green = 0;
+
+  pixel **bluearray = make_and_init_image(12, 12, blue);
+  provided_write_png_struct("ex3.png", bluearray, 12, 12);
+
+
 
 
 
