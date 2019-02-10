@@ -63,5 +63,65 @@ safe_string* make_string(char *str){
 
 
 void safe_str_cpy(safe_string *dest, safe_string *src){
-  
+  int len_src, len_dest, i;
+  len_src = src->allocated_length;
+  len_dest = dest->allocated_length;
+
+
+  if (len_src > len_dest) {
+    free(dest->str);
+
+    dest->allocated_length = src->allocated_length;
+
+    dest->str = (char*)malloc(sizeof(char) * len_src);
+
+    for (i = 0; i < len_src; i++) {
+      (dest->str)[i] = src->str[i];
+    }
+  }
+  // I do not understand how this works
+  else {
+    for (i = 0; i < len_src; i++) {
+      (dest->str)[i] = src->str[i];
+    }
+
+    dest->allocated_length = src->allocated_length;
+  }
+}
+
+// Needs to be tested for else statement
+void safe_str_cat(safe_string *dest, safe_string *src){
+  int len_src, len_dest, i, total_len;
+  len_dest = 0;
+  len_src = 0;
+
+  for (i = 0; dest->str[i] != '\0'; i++) {
+    len_dest++;
+  }
+  for (i = 0; src->str[i] != '\0'; i++) {
+    len_src++;
+  }
+  total_len = len_src + len_dest;
+
+  if (total_len > dest->allocated_length) {
+    printf("here\n");
+    char *new_str = (char*)malloc(sizeof(char) *
+                    (dest->allocated_length + src->allocated_length));
+
+    for (i = 0; i < len_dest; i++) {
+      new_str[i] = (dest->str)[i];
+    }
+    for (i = len_dest; i < total_len; i++) {
+      new_str[i] =  src->str[i - len_dest];
+    }
+
+    free(dest->str);
+    dest->str = new_str;
+    dest->allocated_length = dest->allocated_length + src->allocated_length - 1;
+  }
+  else {
+    for (i = len_dest; i < total_len; i++) {
+      (dest->str)[i] = src->str[i - len_dest];
+    }
+  }
 }
