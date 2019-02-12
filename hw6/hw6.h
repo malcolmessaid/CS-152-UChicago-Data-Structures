@@ -29,6 +29,13 @@ void print_product(product_info *g, FILE *fp);
 void print_list(node *head, FILE *fp);
 
 
+product_info *create_product(char *name, char *category, uint id,
+				uint current, uint mn, uint mx);
+
+
+node* insert_head(node *head, product_info *pinfo);
+
+
 
 
 
