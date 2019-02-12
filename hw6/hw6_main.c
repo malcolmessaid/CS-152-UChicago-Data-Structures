@@ -13,8 +13,10 @@ int main(int argc, char *argv[])
 	}
 	char *filename = argv[1];
 
+	FILE *fpout = fopen("productLists", "w");
 	// open file for reading
 	FILE *fp = fopen(filename, "r");
+
 	if (fp == NULL)
 	{
 		printf("Could not open file %s for reading\n",filename);
@@ -23,6 +25,7 @@ int main(int argc, char *argv[])
 
 	// read in each record from the file
 	char buffer[BUFSIZ];
+	node *head= NULL;
 	while (!feof(fp) && (fgets(buffer,500,fp) != NULL))
 	{
 		// parse the line to split up the fields
@@ -58,7 +61,23 @@ int main(int argc, char *argv[])
 		// now you need to write the code to create a record
 		// and put that record into the linked list
 
+		product_info *testProduct = create_product(name, category, pID, current_stock,
+			min_stock, max_stock);
+
+//		print_product(testProduct, fpout);
+
+
+
+
+		head = insert_head(head, testProduct);
+
+		// tmp->product = testProduct;
+		// head = testProduct;
+
 	}
+
+	print_list(head, fpout);
+	fclose(fpout);
 
 	// here you can add stuff to test your other functions
 
