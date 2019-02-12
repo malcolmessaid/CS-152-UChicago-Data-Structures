@@ -178,14 +178,12 @@ int safe_strcmp(safe_string *s1, safe_string *s2) {
     if ((s1->str[i] < s2->str[i]) && (abs(s1->str[i] - s2->str[i]) != 32)) {
       return -1;
     }
-    //&& (abs(s1->str[i] - s2->str[i]) == 32)
     else if (s1->str[i] < s2->str[i] ) {
       return -1;
     }
     if ((s1->str[i] > s2->str[i]) && abs(s1->str[i] - s2->str[i]) != 32){
       return 1;
     }
-    //&& abs(s1->str[i] - s2->str[i]) == 32
     else if (s1->str[i] > s2->str[i] ) {
       return 1;
     }

@@ -4,7 +4,6 @@
 #include <string.h>
 
 int main(int argc, char const *argv[]) {
-// 6. ERROR CHECKING
   printf("HW5 Testing\n");
   if( atoi(argv[1]) == 1 ) {
     printf("TESTS FOR make_empty_string\n");
