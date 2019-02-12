@@ -8,11 +8,6 @@ typedef struct {
 	int *array;
 } int_vector;
 
-// typedef struct {
-// 	unsigned int red;
-// 	unsigned int green;
-// 	unsigned int blue;
-// } pixel;
 
 
 

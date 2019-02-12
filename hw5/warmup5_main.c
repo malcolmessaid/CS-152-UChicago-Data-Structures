@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "warmup5_provided.h"
 #include "warmup5.h"
-//./warmup5 1 "malcolm" "essaid" "" "hello" "world"
 
 
 int main(int argc, char const *argv[]) {
