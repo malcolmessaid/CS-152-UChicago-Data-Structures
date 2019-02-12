@@ -64,15 +64,9 @@ int main(int argc, char *argv[])
 		product_info *testProduct = create_product(name, category, pID, current_stock,
 			min_stock, max_stock);
 
-//		print_product(testProduct, fpout);
-
-
-
+		print_product(testProduct, fpout);
 
 		head = insert_head(head, testProduct);
-
-		// tmp->product = testProduct;
-		// head = testProduct;
 
 	}
 

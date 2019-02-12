@@ -26,15 +26,6 @@ void print_list(node *head, FILE *fp) {
 	}
 }
 
-//
-// typedef struct {
-//  enum Category category;
-//  char name[40];
-//  uint productID;
-//  uint current_stock;
-//  uint min_for_restock;
-//  uint max_after_restock;
-// } product_info;
 
 product_info *create_product(char *name, char *category, uint id,
 				uint current, uint mn, uint mx) {
