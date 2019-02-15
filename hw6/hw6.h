@@ -35,6 +35,13 @@ product_info *create_product(char *name, char *category, uint id,
 
 node* insert_head(node *head, product_info *pinfo);
 
+void record_restocked_single(node *head, uint pID);
+
+void product_sold(node *head, uint pID);
+
+
+node *make_restock_list(node *head);
+
 
 
 

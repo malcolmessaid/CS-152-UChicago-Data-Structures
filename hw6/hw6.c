@@ -72,3 +72,98 @@ product_info *find(node *head, uint pID) {
 	}
 	return NULL;
 }
+
+
+
+// struct _node{
+//  product_info *product;
+//  node *next;
+// };
+
+void record_restocked_single(node *head, uint pID) {
+		if (find(head, pId) == NULL){
+			return;
+		}
+		else {for
+			find(head, pID)->product->current_stock = max_after_restock;
+		}
+}
+
+
+void product_sold(node *head, uint pID) {
+	if (find(head, pId) == NULL){
+		return;
+	}
+	else {for
+		find(head, pID)->product->current_stock--;;
+	}
+}
+
+
+
+node *add_sorted_productID(product_info *pinfo, node *head) {
+	node *tmp;
+	for (tmp = head; tmp->next ; tmp = tmp->next) {
+		if (temp->product->productID < pinfo->productID) {
+			node *insert = (node*)malloc(sizeof(node));
+			insert->product = pinfo;
+			insert->next = temp->next;
+			return head;
+		}
+	}
+
+	node *insert = (node*)malloc(sizeof(node));
+	insert->product = pinfo;
+	tmp->next = insert;
+	return head;
+}
+
+
+
+//
+// node *add_sorted_category_ID(product_info *pinfo, node *head) {
+// 	node *tmp;
+// 	int i;
+// 	for (size_t i = 0; i < count; i++) {
+// 		for (tmp = head; tmp->next ; tmp = tmp->next) {
+// 			if (temp->product->productID < pinfo->productID) {
+// 				node *insert = (node*)malloc(sizeof(node));
+// 				insert->product = pinfo;
+// 				insert->next = temp->next;
+// 				return head;
+// 			}
+// 		}
+// 	}
+//
+//
+// 	node *insert = (node*)malloc(sizeof(node));
+// 	insert->product = pinfo;
+// 	tmp->next = insert;
+// 	return head;
+// }
+
+
+//
+// typedef struct {
+//  enum Category category;
+//  char name[40];
+//  uint productID;
+//  uint current_stock;
+//  uint min_for_restock;
+//  uint max_after_restock;
+// } product_info;
+
+
+// I THINK THE REST OF THIS CAN BE DONE ON MONDAY NIGHT, RIGHT?
+node *make_restock_list(node *head) {
+	node *restock = (node*)malloc(sizeof(node));
+	node *tmp;
+	for (tmp = head; tmp->next ; tmp = tmp->next) {
+		if (temp->product->current_stock < temp->product->current_stock) {
+			node *new_restock = (node*)malloc(sizeof(node));
+			new_restock->product = tmp;
+			new_restock->next = NULL;
+			return head;
+		}
+	}
+}
