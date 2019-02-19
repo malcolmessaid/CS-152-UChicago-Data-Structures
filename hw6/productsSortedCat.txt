@@ -1,0 +1,10 @@
+Grocery, Flour, 92656, 9, 8, 12
+Grocery, 2%Milk, 38590, 17, 10, 30
+Grocery, Butter, 2956, 20, 10, 35
+Office, Printer, 23765, 5, 4, 8
+Office, Stapler, 3826, 23, 22, 30
+Office, Pencil, 3800, 23, 22, 30
+Office, Pen, 3700, 23, 22, 30
+Hobby, LionStuffy, 380571, 7, 4, 8
+Pharmacy, BandAids, 8261, 14, 12, 25
+Pharmacy, BugSpray, 2653, 8, 6, 16
