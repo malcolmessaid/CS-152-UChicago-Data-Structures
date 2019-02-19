@@ -69,4 +69,10 @@ node *make_restock_list(node *head);
 
 
 
+void record_restocked_list(node *restocked_list, node *head);
+
+
+
+
+
 #endif

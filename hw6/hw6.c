@@ -225,13 +225,22 @@ node *add_sorted_category_ID(product_info *pinfo, node *head) {
 node *make_restock_list(node *head) {
 	node *restock = (node*)malloc(sizeof(node));
 	node *tmp;
-	for (tmp = head; tmp->next ; tmp = tmp->next) {
+	restock = NULL;
+	for (tmp = head; tmp->next != NULL; tmp = tmp->next) {
 		if (tmp->product->current_stock < tmp->product->min_for_restock) {
-			insert_head(restock, tmp->product);
-			// node *new_restock = (node*)malloc(sizeof(node));
-			// new_restock->product = tmp->product;
-			// new_restock->next = NULL;
+			restock = insert_head(restock, tmp->product);
 		}
 	}
-	return head;
+	return restock;
+}
+
+
+
+
+void record_restocked_list(node *restocked_list, node *head){
+	node *tmp = NULL;
+	print_list(restocked_list, stdout);
+	for (tmp = restocked_list; tmp != NULL; tmp = tmp->next) {
+		record_restocked_single(head, tmp->product->productID);
+	}
 }

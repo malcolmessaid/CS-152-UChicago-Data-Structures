@@ -149,9 +149,14 @@ int main(int argc, char *argv[])
 	printf("\n \n");
 
 
-	printf("\n \n \n");
 	// WILL NOT CALL THE ONE THAT IS NOT BEING CALLED PROPERLY
-//	Call with productsSorted.txt
+
+		printf("To test add_sorted_productID call with productsSorted.txt \n");
+		printf("To test add_sorted_category_ID call with productsSortedCat.txt \n");
+		printf("To test make_restock_list call with productsUnderStock.txt \n");
+
+
+
 	if (strcmp(filename,  "productsSorted.txt") == 0){
 		printf("TESTING add_sorted_productID\n");
 		product_info *test1 = create_product("airpod","Grocery", 222, 12, 10, 20);
@@ -187,9 +192,15 @@ int main(int argc, char *argv[])
 		print_list(head, stdout);
 		printf("\n");
 	}
+	else if (strcmp(filename, "productsUnderstock.txt") == 0) {
+		printf("\nTESTING make_restock_list\n");
 
+		print_list(head, stdout);
+		node *restock_list = make_restock_list(head);
+		print_list(restock_list, stdout);
 
-// Above should be commented out when testing this.
-// When testing call with productsSortedCat.txt
-
+		printf("Restock list:\n\n\n");
+		record_restocked_list(restock_list, head);
+		print_list(head, stdout);
+	}
 }
