@@ -91,16 +91,10 @@ product_info *find(node *head, uint pID) {
 			return tmp->product;
 		}
 	}
-	// RETURN BLANK ITEM
 	return NULL;
 }
 
 
-
-// struct _node{
-//  product_info *product;
-//  node *next;
-// };
 
 
 /* record_restocked_single: replaces the current number of items with the max number
@@ -206,17 +200,6 @@ node *add_sorted_category_ID(product_info *pinfo, node *head) {
 }
 
 
-//
-// typedef struct {
-//  enum Category category;
-//  char name[40];
-//  uint productID;
-//  uint current_stock;
-//  uint min_for_restock;
-//  uint max_after_restock;
-// } product_info;
-
-
 /* make_restock_list: creates link list of items that need to be restocked
 	* input:
 	*    node *head - link list of items
@@ -236,7 +219,12 @@ node *make_restock_list(node *head) {
 
 
 
-
+/* record_restocked_list: Restocks list of items that needs to be restocked
+	* input:
+	*    node *restocked_list - list that tells what needs to be restocked
+	*    node *head - list that will be restocked
+	* output: node * - new list of items to restock
+*/
 void record_restocked_list(node *restocked_list, node *head){
 	node *tmp = NULL;
 	print_list(restocked_list, stdout);
