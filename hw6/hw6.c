@@ -26,7 +26,17 @@ void print_list(node *head, FILE *fp) {
 	}
 }
 
-
+/* create_product
+ *  Creates new product with given fields.
+ * input:
+ *    char *name - Name of product
+ *    char *category - category of product
+ *    uint id - Product ID of product
+ *    uint current - current_stock of product
+ *    uint mn - min_for_restock of product
+ *    uint mx - max_after_restock of product
+ * output: product_info * - pointer to new product
+ */
 product_info *create_product(char *name, char *category, uint id,
 				uint current, uint mn, uint mx) {
 					product_info *new;
@@ -35,7 +45,7 @@ product_info *create_product(char *name, char *category, uint id,
 
 					int i;
 					for (i = 0; i < 4; i++) {
-						if (strcmp(category_strings[i], category)){
+						if (strcmp(category_strings[i], category) == 0){
 							new->category = i;
 						}
 					}
@@ -48,9 +58,15 @@ product_info *create_product(char *name, char *category, uint id,
 					new->max_after_restock = mx;
 
 					return new;
-				}
+}
 
 
+/* insert_head: inserts node at beginning of link list
+	* input:
+	*    node *head - pointer to head of list
+	*    product_info *pinfo - info to place at begginning
+	* output: node * - pointer modified list
+*/
 node* insert_head(node *head, product_info *pinfo) {
 	node *new = (node*)malloc(sizeof(node));
 
@@ -62,14 +78,20 @@ node* insert_head(node *head, product_info *pinfo) {
 
 
 
-
+/* find: finds a node in a link list given pID
+	* input:
+	*    node *head - pointer to head of list
+	*    uint pID - pID to search for
+	* output: node * - pointer to matching node
+*/
 product_info *find(node *head, uint pID) {
-	node *tmp = (node*)malloc(sizeof(node));
-	for (tmp = head; tmp->next ; tmp = tmp->next) {
+	node *tmp;
+	for (tmp = head; tmp != NULL ; tmp = tmp->next) {
 		if (tmp->product->productID == pID) {
 			return tmp->product;
 		}
 	}
+	// RETURN BLANK ITEM
 	return NULL;
 }
 
@@ -80,67 +102,108 @@ product_info *find(node *head, uint pID) {
 //  node *next;
 // };
 
+
+/* record_restocked_single: replaces the current number of items with the max number
+	* input:
+	*    node *head - head of link list
+	*    uint pID - pID of node to restock
+	* output: void - restocks node
+*/
 void record_restocked_single(node *head, uint pID) {
-		if (find(head, pId) == NULL){
+		if (find(head, pID) == NULL){
+			printf("BROKE\n");
 			return;
 		}
-		else {for
-			find(head, pID)->product->current_stock = max_after_restock;
+		else {
+			find(head, pID)->current_stock = find(head, pID)->max_after_restock;
 		}
 }
 
-
+/* record_restocked_single: subtracts current stock by one
+	* input:
+	*    node *head - head of link list
+	*    uint pID - pID of node to sell
+	* output: node * - sells one item
+*/
 void product_sold(node *head, uint pID) {
-	if (find(head, pId) == NULL){
+	if (find(head, pID) == NULL){
 		return;
 	}
-	else {for
-		find(head, pID)->product->current_stock--;;
+	else {
+		find(head, pID)->current_stock--;;
 	}
 }
 
 
-
+/* add_sorted_productID: inserts node in sorted spot based on productID
+	* input:
+	*    product_info *pinfo - product to insert
+	*    node *head - head of link list to insert into
+	* output: node * - modifed list
+*/
 node *add_sorted_productID(product_info *pinfo, node *head) {
 	node *tmp;
-	for (tmp = head; tmp->next ; tmp = tmp->next) {
-		if (temp->product->productID < pinfo->productID) {
+	tmp = head;
+	if (tmp->next->product->productID > pinfo->productID) {
+		return insert_head(head, pinfo);
+	}
+
+	for (tmp = head; tmp->next != NULL; tmp = tmp->next) {
+		if (tmp->next->product->productID > pinfo->productID) {
 			node *insert = (node*)malloc(sizeof(node));
 			insert->product = pinfo;
-			insert->next = temp->next;
+			insert->next = tmp->next;
+			tmp->next = insert;
 			return head;
 		}
 	}
-
-	node *insert = (node*)malloc(sizeof(node));
-	insert->product = pinfo;
-	tmp->next = insert;
-	return head;
+		node *insert = (node*)malloc(sizeof(node));
+		insert->product = pinfo;
+		tmp->next = insert;
+		return head;
 }
 
 
 
-//
-// node *add_sorted_category_ID(product_info *pinfo, node *head) {
-// 	node *tmp;
-// 	int i;
-// 	for (size_t i = 0; i < count; i++) {
-// 		for (tmp = head; tmp->next ; tmp = tmp->next) {
-// 			if (temp->product->productID < pinfo->productID) {
-// 				node *insert = (node*)malloc(sizeof(node));
-// 				insert->product = pinfo;
-// 				insert->next = temp->next;
-// 				return head;
-// 			}
-// 		}
-// 	}
-//
-//
-// 	node *insert = (node*)malloc(sizeof(node));
-// 	insert->product = pinfo;
-// 	tmp->next = insert;
-// 	return head;
-// }
+/* add_sorted_category_ID: inserts node in sorted spot based on productID and category
+	* input:
+	*    product_info *pinfo - product to insert, with details about ID and category
+	*    node *head - head of link list to insert into
+	* output: node * - modifed list
+*/
+node *add_sorted_category_ID(product_info *pinfo, node *head) {
+	node *tmp;
+	printf("calling\n");
+	tmp = head;
+	if (tmp->next->product->productID > pinfo->productID &&
+				(tmp->next->product->category  == pinfo->category)) {
+		return insert_head(head, pinfo);
+	}
+
+	for (tmp = head; tmp->next != NULL ; tmp = tmp->next) {
+
+		while (tmp->next->product->category  == pinfo->category) {
+			if ((tmp->next->product->productID > pinfo->productID) &&
+			(tmp->next->product->category  == pinfo->category)) {
+
+				printf("hello1\n");
+				node *insert = (node*)malloc(sizeof(node));
+				insert->product = pinfo;
+				insert->next = tmp->next;
+				tmp->next = insert;
+				return head;
+			}
+			else {
+				break;
+			}
+		}
+	}
+	node *insert = (node*)malloc(sizeof(node));
+	insert->product = pinfo;
+	insert->next = tmp->next;
+	tmp->next = insert;
+	return head;
+}
 
 
 //
@@ -154,16 +217,21 @@ node *add_sorted_productID(product_info *pinfo, node *head) {
 // } product_info;
 
 
-// I THINK THE REST OF THIS CAN BE DONE ON MONDAY NIGHT, RIGHT?
+/* make_restock_list: creates link list of items that need to be restocked
+	* input:
+	*    node *head - link list of items
+	* output: node * - new list of items to restock
+*/
 node *make_restock_list(node *head) {
 	node *restock = (node*)malloc(sizeof(node));
 	node *tmp;
 	for (tmp = head; tmp->next ; tmp = tmp->next) {
-		if (temp->product->current_stock < temp->product->current_stock) {
-			node *new_restock = (node*)malloc(sizeof(node));
-			new_restock->product = tmp;
-			new_restock->next = NULL;
-			return head;
+		if (tmp->product->current_stock < tmp->product->min_for_restock) {
+			insert_head(restock, tmp->product);
+			// node *new_restock = (node*)malloc(sizeof(node));
+			// new_restock->product = tmp->product;
+			// new_restock->next = NULL;
 		}
 	}
+	return head;
 }
