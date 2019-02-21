@@ -19,17 +19,29 @@ void memory_free(void* p){
   free(m);
 }
 
-/* compare two memory variables x and y by address 
+/* compare two memory variables x and y by address
  * if x is less than y, return -1
  * if x is greater than y, return 1
  * if they are equal, return 0
  */
 int memory_addr_cmp(const void* x, const void* y){
   //TODO
-  return 0;
+  memory *mem1 = (memory*)x;
+  memory *mem2 = (memory*)y;
+
+  if (mem1->addr == mem2->addr){
+    return 0;
+  }
+  else if (mem1->addr < mem2->addr) {
+    return -1;
+  }
+  else {
+    return 1;
+  }
+
 }
 
-/* compare two memory variables x and y by size 
+/* compare two memory variables x and y by size
  * if x is less than y, return -1
  * if x is greater than y, return 1
  * if they are equal, return 0
