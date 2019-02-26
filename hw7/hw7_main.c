@@ -50,17 +50,13 @@ int search_test(bst* b, memory* data, void* expected){
   }
 }
 
-// int delete_test(bst* b, memory* data){
-//   memory* temp = (memory*)bst_delete(b, data);
-//   if (b->cmp(temp, expected) == 0){
-//     printf("search_test passed: bst_search and node_search work\n");
-//     return 1;
-//   }
-//   else {
-//     fprintf(stderr, "search_test failed: incorrect data type failed\n");
-//     return 0;
-//   }
-// }
+
+void delete_test(bst* b, memory* data){
+  printf("deleted: ");
+  memory_print(data);
+  bst_delete(b, data);
+  print_tree(b, NULL, 0);
+}
 
 
 int main() {
@@ -86,19 +82,6 @@ int main() {
   bst_inorder_traversal(test3, memory_print);
 
 
-  // Tests for new_node, node_insert and bst_insert
-  //node* test4 = node_new(memory_new(11, 332));
-//  node* test5 = node_new(memory_new(6, 332));
-
-  //
-  // bst_insert(test1, (void*)test5);
-  // printf("\nPrints testmemory1 with test4 inserted:\n");
-  // bst_inorder_traversal(test2, memory_print);
-  //
-  //
-  // printf("\nPrints testmemory2 with test4 inserted:\n");
-  // test2->root = node_insert(test2->root, test4, memory_addr_cmp);
-  // bst_inorder_traversal(test2, memory_print);
 
   //print_tree(test1, test5, 0);
 
@@ -109,12 +92,9 @@ int main() {
   search_test(test2, memory_new(4, 111), (memory_new(4, 111)));
 
   // Tests for Delete
-
-
-
-
-  // Test Comparisons
-
+  //memory* test7 = memory_new(6, 175);
+///  bst_insert(test1, test7);
+  delete_test(test1, memory_new(2, 50));
 
 
 
