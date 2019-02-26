@@ -79,7 +79,6 @@ void* add_to_address(void *address, int x){
 
 	char *pc = (char*)v;
 	pc += x;
-  pc += 8
 	return (void*)pc;
 }
 
