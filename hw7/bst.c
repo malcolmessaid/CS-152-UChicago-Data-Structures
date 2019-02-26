@@ -112,6 +112,7 @@ node* node_delete(node* root, void* data,
  */
 void bst_delete(bst* b, void* data){
   //TODO
+  node_delete(b->root, data, b->cmp);
 }
 
 /* Search for a node containing data in a subtree with
