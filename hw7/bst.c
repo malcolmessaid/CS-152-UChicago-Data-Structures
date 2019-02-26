@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "bst.h"
+#include "memory.h"
 
 /* malloc a new node and assign the data
  * pointer to its data field
@@ -19,13 +20,14 @@ node* node_new(void* data){
  */
 bst* bst_new(int (*cmp)(const void* x, const void* y)){
   //TODO
-  bst new = (bst*)malloc(sizeof(bst));
+  bst* new = (bst*)malloc(sizeof(bst));
 
   new->root = NULL;
   new->cmp = cmp;
 
   return new;
 }
+
 
 /* Insert a node to to a subtree with a root node as parameter
  * Insertion is in sorted order.
@@ -35,7 +37,7 @@ node* node_insert(node* root, void* data,
     int (*cmp)(const void* x, const void* y)){
   //TODO
   if (root == NULL){
-    node_new(data);
+    return node_new(data);
   }
   else {
     if (cmp(data, root->data) < 0){
@@ -52,7 +54,6 @@ node* node_insert(node* root, void* data,
 /* Insert a new node to the bst
  */
 void bst_insert(bst* b, void* data){
-  //TODO
   b->root = node_insert(b->root, data, b->cmp);
 }
 
@@ -66,7 +67,44 @@ void bst_insert(bst* b, void* data){
  */
 node* node_delete(node* root, void* data,
     int (*cmp)(const void* x, const void* y)){
-  //TODO
+
+  if (root == NULL){
+    return NULL;
+  }
+
+  if (cmp(root, data) == -1){
+    return node_delete(root->left, data, cmp);
+  }
+
+  else if (cmp(root, data) == 1){
+    return node_delete(root->right, data, cmp);
+  }
+
+  else {
+    if (root->right == NULL){
+      node* temp = root->left;
+      free(root);
+      return temp;
+    }
+    else if (root->left == NULL){
+      node* temp = root->right;
+      free(root);
+      return temp;
+    }
+    else if (cmp(root->left, root->right) < 1){
+      node* temp = root->right;
+      root->data = temp->data;
+      root->right = node_delete(root->right, temp, cmp);
+      return temp;
+    }
+    else {
+      node* temp = root->left;
+      root->data = temp->data;
+      root->left = node_delete(root->left, temp, cmp);
+      return temp;
+    }
+  }
+
   return NULL;
 }
 
@@ -82,15 +120,40 @@ void bst_delete(bst* b, void* data){
  */
 void* node_search(node* root, void* data,
     int (*cmp)(const void* x, const void* y)){
-  //TODO
+
+  if (root->data == NULL) {
+    return NULL;
+  }
+
+  else {
+    if (cmp(data, root->data) == 0) {
+      return root->data;
+    }
+    else {
+      if (cmp(data, root->data) == -1){
+        return(node_search(root->left, data, cmp));
+      }
+      else if (cmp(data, root->data) == 1){
+        return(node_search(root->right, data, cmp));
+      }
+      else {
+        return NULL;
+      }
+    }
+  }
   return NULL;
 }
 
 /* Search a node with data in a bst.
  */
 void* bst_search(bst* b, void* data){
-  //TODO
-  return NULL;
+
+  if (b->root == NULL) {
+    return NULL;
+  }
+
+  return node_search(b->root, data, b->cmp);
+
 }
 
 /* traverse a subtree with root in ascending order.
@@ -113,22 +176,31 @@ void inorder_traversal(node* root, void(*func)(void* data)){
  */
 void bst_inorder_traversal(bst* b, void(*func)(void* data)){
   //TODO
+  if (b == NULL){
+    return;
+  }
   inorder_traversal(b->root, func);
 }
 
+void node_free(node* n){
+
+  if (n == NULL){
+    return;
+  }
+
+  node_free(n->left);
+  node_free(n->left);
+  free(n);
+
+}
 /* free the bst with
  */
- // I have no idea what this means
 void bst_free(bst* b){
-  //TODO
-  bst_inorder_traversal(b, free);
 
   if (b->root == NULL){
     return;
   }
 
-  bst_free(bst_new(root->left), );
-  bst_free(root->right, func);
-  func(root->data);
+  node_free(b->root);
 
 }
