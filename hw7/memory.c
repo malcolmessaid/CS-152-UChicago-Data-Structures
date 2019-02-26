@@ -47,7 +47,19 @@ int memory_addr_cmp(const void* x, const void* y){
  * if they are equal, return 0
  */
 int memory_size_cmp(const void* x, const void* y){
-  //TODO
+  memory *mem1 = (memory*)x;
+  memory *mem2 = (memory*)y;
+
+  if (mem1->size == mem2->size){
+    return 0;
+  }
+  else if (mem1->size < mem2->size) {
+    return -1;
+  }
+  else {
+    return 1;
+  }
+
   return 0;
 }
 
