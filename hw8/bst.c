@@ -176,14 +176,34 @@ void bst_inorder_traversal(bst* b, void(*func)(void* data)){
 
 // a helper function to create linked list from bst by in order traversal
 void inorder_traversal_insert_llist(node* root, llist* l){
-	fprintf(stderr, "inorder_traversal_insert_llist not implemented\n");
+
+
+	inorder_traversal_insert_llist(root->left, func);
+	insert_tail(l, root->data);
+	inorder_traversal_insert_llist(root->right, func);
+
 }
+
+
 
 /* an iterator to iterate through the bst in ascending order
  */
 void* bst_iterate(bst* b){
-	fprintf(stderr, "bst_iterate not implemented\n");
-	return NULL;
+
+	static llist *node = NULL;
+
+	if (b) {
+		node = create_llist();
+		inorder_traversal_insert_llist(b->root, temp);
+
+		return iterate(node);
+	}
+
+	if (!node){
+		return iterate(NULL);
+	}
+
+
 }
 
 
@@ -230,5 +250,31 @@ void bst_free(bst* b){
  * function in the bst is the one that performs the comparisons.
  */
 void* node_item_or_successor(node *n, void *item,
-        int (*cmp)(const void* x, const void* y));
+        int (*cmp)(const void* x, const void* y)) {
+					void *item;
+					for(item = iterate(avail_mem); item != NULL; item = iterate(NULL)){
+						if (item->data >= node->data){
+							return
+						}
+					}
+
+				}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void* bst_item_or_successor(bst *b, void *item);
