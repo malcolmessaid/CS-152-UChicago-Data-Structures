@@ -61,7 +61,7 @@ void init_alloc()
 /* my_malloc
  *
  * function that finds a piece of available memory that is at least
- * num_bytes size. A pointer to the beginning of the usable piece of
+ * num_bytes size. A pointer to the begi	nning of the usable piece of
  * that chunk is returned.
  */
 void *my_malloc(int num_bytes)
@@ -69,7 +69,35 @@ void *my_malloc(int num_bytes)
 	if ((num_bytes % 8) != 0) {
 		num_bytes += (num_bytes % 8);
 	}
-	
+
+	// 1. Bst successor to find a piece of memory that is equal to or larger
+			// bst_item_or_successor
+	// 2. Use split memory if chunk of memory is more than twice the size
+	memory* new_mem = memory_new(NULL, num_bytes);
+	memory* space = bst_item_or_successor(avail_mem, new_mem);
+
+	if (space == NULL){
+		// allocated more memeory
+		// split in here too
+		memory* empty;
+		empty = allocate_memory_page();
+		void* split = split_memory(empty, (unsigned int) num_bytes);
+		bst_insert(avail_mem, empty);
+		return split;
+	}
+
+	else if (space->size >= num_bytes * 2){
+		// use space
+		void* split = split_memory(new_mem, num_bytes * 2);
+		return split;
+		bst_insert()
+
+
+	}
+	else {
+		// Delete memoery
+		// Delete from bst;
+	}
 	return NULL;
 }
 
