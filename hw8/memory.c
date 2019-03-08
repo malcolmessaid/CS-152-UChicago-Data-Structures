@@ -5,7 +5,7 @@
 /* memory_new
  * create a new memory struct, initialze its address and size
  */
-memory* memory_new(void *addr, unsigned int size);
+memory* memory_new(void *addr, unsigned int size){
   memory* m = (memory*)malloc(sizeof(memory));
   m->addr = addr;
   m->size = size;
@@ -77,7 +77,7 @@ void memory_print(void* data){
 
 void* add_to_address(void *address, int x){
 
-	char *pc = (char*)v;
+	char *pc = (char*)address;
 	pc += x;
 	return (void*)pc;
 }
@@ -91,11 +91,11 @@ void* add_to_address(void *address, int x){
  */
 memory *allocate_memory_page() {
 
-  void *memory = malloc(4096);
+  void *mem = malloc(4096);
+  memory* newmem;
+  newmem =  memory_new(add_to_address(mem, 8) , 4088);
 
-  memory* new_mem =  memory_new(add_to_address(memory, 8) , 4088);
-
-  return new_mem;
+  return newmem;
 
 }
 

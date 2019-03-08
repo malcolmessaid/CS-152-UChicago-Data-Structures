@@ -177,10 +177,14 @@ void bst_inorder_traversal(bst* b, void(*func)(void* data)){
 // a helper function to create linked list from bst by in order traversal
 void inorder_traversal_insert_llist(node* root, llist* l){
 
+	if (root == NULL){
+		return;
+	}
 
-	inorder_traversal_insert_llist(root->left, func);
+
+	inorder_traversal_insert_llist(root->left, l);
 	insert_tail(l, root->data);
-	inorder_traversal_insert_llist(root->right, func);
+	inorder_traversal_insert_llist(root->right, l);
 
 }
 
@@ -194,16 +198,15 @@ void* bst_iterate(bst* b){
 
 	if (b) {
 		node = create_llist();
-		inorder_traversal_insert_llist(b->root, temp);
+		inorder_traversal_insert_llist(b->root, node);
 
 		return iterate(node);
 	}
 
 	if (!node){
-		return iterate(NULL);
+		return NULL;
 	}
-
-
+	return iterate(NULL);
 }
 
 
@@ -250,31 +253,35 @@ void bst_free(bst* b){
  * function in the bst is the one that performs the comparisons.
  */
 void* node_item_or_successor(node *n, void *item,
-        int (*cmp)(const void* x, const void* y)) {
-					void *item;
-					for(item = iterate(avail_mem); item != NULL; item = iterate(NULL)){
-						if (item->data >= node->data){
-							return
-						}
-					}
+	int (*cmp)(const void* x, const void* y)) {
 
-				}
+		if (n == NULL){
+			return NULL;
+		}
 
 
+		if (cmp(item, n->data) == 0) {
+			return n->data;
+		}
+
+		if (cmp(item, n->data) <= 0) {
+			void *left = node_item_or_successor(n->left, item, cmp);
+			if (left != NULL){
+				return left;
+			}
+			else {
+				return n->data;
+			}
+		}
+
+		else {
+			return node_item_or_successor(n->right, item, cmp);
+		}
+
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void* bst_item_or_successor(bst *b, void *item);
+void* bst_item_or_successor(bst *b, void *item){
+	return node_item_or_successor(b->root, item, b->cmp);
+}
