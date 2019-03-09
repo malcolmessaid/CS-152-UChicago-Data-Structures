@@ -58,64 +58,86 @@ void init_alloc()
 
 }
 
+void* add_to_address_alloc(void *address, int x){
+
+	char *pc = (char*)address;
+	pc += x;
+	return (void*)pc;
+}
+
+
 /* my_malloc
  *
  * function that finds a piece of available memory that is at least
- * num_bytes size. A pointer to the begi	nning of the usable piece of
+ * num_bytes size. A pointer to the beginning of the usable piece of
  * that chunk is returned.
  */
 void *my_malloc(int num_bytes)
 {
 	if ((num_bytes % 8) != 0) {
-		num_bytes += (num_bytes % 8);
+		num_bytes += (8 - (num_bytes % 8));
 	}
 
 	// 1. Bst successor to find a piece of memory that is equal to or larger
 			// bst_item_or_successor
 	// 2. Use split memory if chunk of memory is more than twice the size
 	memory* new_mem = memory_new(NULL, num_bytes);
-	memory* space = bst_item_or_successor(avail_mem, new_mem);
+	printf("%p\n", bst_item_or_successor(avail_mem, new_mem));
+	memory* space = (memory*)bst_item_or_successor(avail_mem, new_mem);
+
 
 	if (space == NULL){
-		// Save the size of each assinged memory chunk in a poitner with the add_to_address
+		// Save the size of each assinged memory chunk in a poitner with the add_to_address__alloc
 		// eight fewer than the address of the memory chunk
-		unsigned int size_ptr*;
+		unsigned int* size_ptr;
 		memory* empty;
+
+		// Need to check if new page is more than double need to allocate all
 		empty = allocate_memory_page();
+
+		// if (space->size >= num_bytes * 2){
+		//
+		// }
 		void* split = split_memory(empty, (unsigned int) num_bytes);
-		size_ptr = add_to_address(split, -8);
-		size_ptr* = (unsigned int) num_bytes;
+//printf("Space Size %u\n", space->size);
+		size_ptr = add_to_address_alloc(split, -8);
+		printf("byres %u\n", num_bytes);
+		*size_ptr = num_bytes;
+
 		bst_insert(avail_mem, empty);
 		return split;
 	}
 
 	else if (space->size >= num_bytes * 2){
 		// use space
-		unsigned int size_ptr*;
-		void* split = split_memory(new_mem, num_bytes * 2);
+		unsigned int* size_ptr;
+		void* split = split_memory(space, num_bytes * 2);
 
-		delete(avail_mem, space);
-		space->size -= num_bytes;
-		space->size -= 8;
-		size_ptr = add_to_address(split, -8);
-		size_ptr* = (unsigned int) num_bytes;
+		bst_delete(avail_mem, space);
+
+		// Is this done in split_memory
+		// space->size -= num_bytes;
+		// space->size -= 8;
+printf("Space Size %u\n", space->size);
+		size_ptr = add_to_address_alloc(split, -8);
+		*size_ptr = (unsigned int) num_bytes;
+
 		bst_insert(avail_mem, space);
 
 		return split;
 	}
 	else {
-		// Delete memoery
-		// Delete from bst;
+		// Allocating entire remaining chunk if less than 2*num_bytes
+		unsigned int* size_ptr;
+		void* save = space->addr;
 
-		// will also have to free
-		unsigned int size_ptr*;
-		void* save = space->address;
-		delete(avail_mem, space);
+		bst_delete(avail_mem, space);
 		memory_free(space);
-		size_ptr = add_to_address(save, -8);
-		size_ptr* = (unsigned int) num_bytes;
-		// Why are you adding to space->address
-		return add_to_address(space->address, 8);
+		
+		size_ptr = add_to_address_alloc(save, -8);
+		*size_ptr = (unsigned int) num_bytes;
+		// Why are you adding to space->addr. It should be in the right spot already
+		return add_to_address_alloc(space->addr, 8);
 	}
 	return NULL;
 }
@@ -128,5 +150,9 @@ void *my_malloc(int num_bytes)
  */
 void my_free(void *address)
 {
-	fprintf(stderr,"my_free not implemented yet\n");
+	unsigned int* size;
+	size = add_to_address_alloc(address, -8);
+	memory* new = memory_new(address, *size);
+	bst_insert(avail_mem, new);
+	return;
 }

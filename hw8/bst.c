@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include "bst.h"
 #include "llist.h"
+#include "memory.h"
 
 /* malloc a new node and assign the data
  * pointer to its data field
