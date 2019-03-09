@@ -17,31 +17,44 @@ extern bst* avail_mem;
   *    int insert - if 1, insert data, if -1 delete. if 0 just print
 	* output: node * - pointer modified list
 */
-void print_tree(bst* b, void*data, int insert){
-  if (data == NULL) {
+void print_tree(bst* b){
     bst_inorder_traversal(b, memory_print);
-    return;
-  }
-  else if (insert == 1){
-    return;
-  }
-  else {
-    printf("%d\n", ((memory*)data)->size);
-    printf("Inserted: ");
-    memory_print(data);
-    bst_insert(b, data);
-    bst_inorder_traversal(b, memory_print);
-  }
 }
 
 
 void successor_test(bst *b, void *item) {
-    printf("Item Memory: %u\n", ((memory*)item)->size);
-    print_tree(b, NULL, 0);
+    printf("Successor Tests: \n");
+    print_tree(b);
+    memory* ret_val = (memory*)bst_item_or_successor(b, item);
 
-    printf("%p", bst_item_or_successor(b, item));
+    printf("Inputed Memory Struct: ");
+    memory_print((memory*)item);
+    printf("Chosen Memory Struct: ");
+    memory_print(ret_val);
+    printf("\n");
+    //printf("Successor: %p\n", );
 
-  }
+}
+
+void free_test(bst *b, void *address, int size){
+  printf("my_free Test:\n");
+  printf("Tree Before\n");
+  print_tree(b);
+
+  my_free(address);
+  printf("%u\n", );
+
+  printf("Should insert ");
+  memory* expected = memory_new(address, size);
+  memory_print(expected);
+
+  printf("Tree after\n");
+  print_tree(b);
+
+}
+
+
+
 
 
 bst* make_simple_bst(){
@@ -49,12 +62,12 @@ bst* make_simple_bst(){
 
 // How do i know the address
 // Or write as integer and cast as a void pointer
-  bst_insert(new, memory_new(malloc(40) ,32));
-  bst_insert(new, memory_new(malloc(40) ,16));
-  bst_insert(new, memory_new(malloc(40) ,48));
-  bst_insert(new, memory_new(malloc(40) ,24));
-  bst_insert(new, memory_new(malloc(40) ,8));
-  bst_insert(new, memory_new(malloc(40) ,40));
+  bst_insert(new, memory_new(malloc(50) ,32));
+  bst_insert(new, memory_new(malloc(50) ,16));
+  bst_insert(new, memory_new(malloc(50) ,48));
+  bst_insert(new, memory_new(malloc(50) ,24));
+  bst_insert(new, memory_new(malloc(50) ,8));
+  bst_insert(new, memory_new(malloc(50) ,40));
 
   return new;
 }
@@ -62,9 +75,17 @@ bst* make_simple_bst(){
 
 int main() {
 
-  //bst* temp = make_simple_bst();
+  bst* temp = make_simple_bst();
 
-//  successor_test(temp, memory_new(allocate_memory_page() ,32));
+  //
+  successor_test(temp, memory_new(malloc(50) ,32));
+
+
+  // Free Tests
+  init_alloc();
+  // void * da = my_malloc(400);
+  // my_free(da);
+  free_test(avail_mem, my_malloc(150), 150);
 
   return 0;
 }

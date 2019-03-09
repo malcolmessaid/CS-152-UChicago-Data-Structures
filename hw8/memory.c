@@ -93,6 +93,7 @@ memory *allocate_memory_page() {
 
   void *mem = malloc(4096);
   memory* newmem;
+  // This might be wrong. Could it be at the beginning
   newmem =  memory_new(add_to_address(mem, 8) , 4088);
 
   return newmem;
@@ -113,7 +114,7 @@ void *split_memory(memory* data, unsigned int size_desired) {
 
 
   data->size = data->size - size_desired - 8;
-// Update the size
+  // THis might be plus 16
   return add_to_address(data->addr, data->size + 8);
 
 }
