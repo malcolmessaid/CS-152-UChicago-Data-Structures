@@ -77,26 +77,45 @@ void *my_malloc(int num_bytes)
 	memory* space = bst_item_or_successor(avail_mem, new_mem);
 
 	if (space == NULL){
-		// allocated more memeory
-		// split in here too
+		// Save the size of each assinged memory chunk in a poitner with the add_to_address
+		// eight fewer than the address of the memory chunk
+		unsigned int size_ptr*;
 		memory* empty;
 		empty = allocate_memory_page();
 		void* split = split_memory(empty, (unsigned int) num_bytes);
+		size_ptr = add_to_address(split, -8);
+		size_ptr* = (unsigned int) num_bytes;
 		bst_insert(avail_mem, empty);
 		return split;
 	}
 
 	else if (space->size >= num_bytes * 2){
 		// use space
+		unsigned int size_ptr*;
 		void* split = split_memory(new_mem, num_bytes * 2);
+
+		delete(avail_mem, space);
+		space->size -= num_bytes;
+		space->size -= 8;
+		size_ptr = add_to_address(split, -8);
+		size_ptr* = (unsigned int) num_bytes;
+		bst_insert(avail_mem, space);
+
 		return split;
-		bst_insert()
-
-
 	}
 	else {
 		// Delete memoery
 		// Delete from bst;
+
+		// will also have to free
+		unsigned int size_ptr*;
+		void* save = space->address;
+		delete(avail_mem, space);
+		memory_free(space);
+		size_ptr = add_to_address(save, -8);
+		size_ptr* = (unsigned int) num_bytes;
+		// Why are you adding to space->address
+		return add_to_address(space->address, 8);
 	}
 	return NULL;
 }
