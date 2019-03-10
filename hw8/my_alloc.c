@@ -92,8 +92,7 @@ void *my_malloc(int num_bytes)
 
 
 	if (space == NULL){
-		printf("%u\n", num_bytes);
-		printf("ONE\n");
+
 		// Save the size of each assinged memory chunk in a poitner with the add_to_address__alloc
 		// eight fewer than the address of the memory chunk
 		unsigned int* size_ptr;
@@ -131,14 +130,14 @@ void *my_malloc(int num_bytes)
 
 	else if (space->size >= num_bytes * 2){
 		// use space
-				printf("%u\n", num_bytes);
-		printf("TWO\n");
 		unsigned int* size_ptr;
+		// Split is the address of the usable data
 		void* split = split_memory(space, num_bytes * 2);
 
 		bst_delete(avail_mem, space);
 
 		size_ptr = add_to_address_alloc(split, -8);
+		// ABOVE LINE SHOULD SHOW THAT SPACE ADDRESS IS POINTING TO USABLE MEMORY
 		*size_ptr = (unsigned int) num_bytes;
 
 		bst_insert(avail_mem, space);
@@ -146,8 +145,7 @@ void *my_malloc(int num_bytes)
 		return split;
 	}
 	else {
-		printf("THREE\n");
-				printf("%u\n", num_bytes);
+
 		// Allocating entire remaining chunk if less than 2*num_bytes
 		unsigned int* size_ptr;
 		void* save = space->addr;
@@ -158,6 +156,13 @@ void *my_malloc(int num_bytes)
 		size_ptr = add_to_address_alloc(save, -8);
 		*size_ptr = (unsigned int) num_bytes;
 		// Why are you adding to space->addr. It should be in the right spot already
+		// The whoole thing is broken. memory struct at the beginning cannot point to beginning and others point to usable part\
+		// there is no way of knowing how to return the usable spot in add_to_address_alloc
+
+		// The below is correct if space is the oringinal memory struct pointing to the
+		// the beginning of a page. But it is incorrect if it is one of the structs
+		// created by my_free becasue those address are said to be pointing to the
+		// usable data
 		return add_to_address_alloc(space->addr, 8);
 	}
 	return NULL;
@@ -173,7 +178,14 @@ void my_free(void *address)
 {
 	unsigned int* size;
 	size = add_to_address_alloc(address, -8);
-	memory* new = memory_new(address, *size);
+	// are we supposed to free the storage of the size here
+	// If the info is being stored in the memory struct, why does it need
+	// to be allocated anymore.
+
+// BIG DECISION ABOUT ADDRESSES HERE
+	// i guess you could make the address address -= 8. so that i had the data
+	// all referenced by the memory struct
+	memory* new = memory_new(add_to_address_alloc(address, -8), *size);
 	bst_insert(avail_mem, new);
 	return;
 }

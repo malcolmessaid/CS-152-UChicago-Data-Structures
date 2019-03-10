@@ -110,9 +110,10 @@ int main() {
 
   //
   // successor_test(temp, memory_new(malloc(50) ,32));
-
-
+//  print_tree(temp);
+  printf("Delete Tests\n");
   delete_test(temp, memory_new(malloc(50) ,48));
+  printf("\n");
   delete_test(temp, memory_new(malloc(50) ,41324));
 
   // Free Tests
@@ -122,9 +123,9 @@ int main() {
 //  free_test(avail_mem, my_malloc(150), 150);
 
 
-  // my_malloc_tester(avail_mem, 50);
-  // my_malloc_tester(avail_mem, 150);
-  // my_malloc_tester(avail_mem, 2000);
+  my_malloc_tester(avail_mem, 50);
+  my_malloc_tester(avail_mem, 150);
+  my_malloc_tester(avail_mem, 2000);
 
   return 0;
 }
