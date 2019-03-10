@@ -113,6 +113,7 @@ int main() {
 
 
   delete_test(temp, memory_new(malloc(50) ,48));
+  delete_test(temp, memory_new(malloc(50) ,41324));
 
   // Free Tests
   init_alloc();
