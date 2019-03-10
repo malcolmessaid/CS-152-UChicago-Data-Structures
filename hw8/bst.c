@@ -274,7 +274,6 @@ void bst_free(bst* b){
  * function in the bst is the one that performs the comparisons.
  */
 
- //Why didn't I use bst search
 void* node_item_or_successor(node *n, void *item,
 	int (*cmp)(const void* x, const void* y)) {
 
