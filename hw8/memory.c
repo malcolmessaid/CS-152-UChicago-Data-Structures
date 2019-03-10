@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "memory.h"
+#include "my_alloc.h"
+
+extern bst* avail_mem;
 
 /* memory_new
  * create a new memory struct, initialze its address and size
@@ -148,8 +151,14 @@ memory *merge_memory(memory *first, memory *second) {
   if (memory_addr_cmp(add_to_address(f_add, 8 + first->size),s_add) == 0){
     memory* new = memory_new(f_add, 8 + first->size + second->size);
     *f_size = 8 + first->size + second->size;
+
+    bst_delete(avail_mem, first);
+    bst_delete(avail_mem, second);
+
+    bst_insert(new);
     return new;
   }
+  //FREE THE OLD STRUCTS IN HEREE
   else {
     return NULL;
   }

@@ -45,9 +45,15 @@ void compact_memory()
 	void *item;
 	for(item = bst_iterate(address_sorted_mem); item != NULL; item = bst_iterate(NULL)){
     // am i using the iterator correctly??
-		if (merge_memory(item, bst_iterate(NULL)))
+    void *item_two = merge_memory(item, bst_iterate(NULL));
+
+    // If there is a merge, then keep going through list until no merge is necesassy
+    // This is so the following node is not skipped.
+		while(item_two){
+      item = bst_iterate(NULL);
+      item_two = merge_memory(item, bst_iterate(NULL));
+    }
 	}
-	fprintf(stderr,"compact_memory not implemented yet\n");
 }
 
 /* print_available_memory
