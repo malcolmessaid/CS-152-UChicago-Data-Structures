@@ -140,13 +140,17 @@ memory *merge_memory(memory *first, memory *second) {
   void* s_add= second->address;
 
   unsigned int* f_size;
-  unsigned int* f_size;
-  f_size = add_to_address_alloc(f_add, -8);
+  unsigned int* s_size;
+  f_size = add_to_address(f_add, -8);
+  s_size = add_to_address(s_add, -8);
 
-  // This should probably work, but if it turns out you need to get rid of those
-  // 8 bytes then get rid of 8
-  if (memory_addr_cmp(add_to_address(f_add, 8 + first->size),
-        s_add ) == 0){
-
+// Todo: figure out way to free s_size.
+  if (memory_addr_cmp(add_to_address(f_add, 8 + first->size),s_add) == 0){
+    memory* new = memory_new(f_add, 8 + first->size + second->size);
+    *f_size = 8 + first->size + second->size;
+    return new;
+  }
+  else {
+    return NULL;
   }
 }
