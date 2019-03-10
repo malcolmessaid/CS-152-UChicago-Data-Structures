@@ -76,6 +76,7 @@ node* left_leaf(node* root){
  * we found is deleted.
  * Return the new root node after deletion.
  */
+ //  MAYBE YOU CHANGE HEIGHT BY NOT FREEING LEAFS PROPERLY. MAKE A HEIGHT TESTER
  node* node_delete(node* root, void* data,
      int (*cmp)(const void* x, const void* y)){
 
