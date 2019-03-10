@@ -41,7 +41,12 @@ void compact_memory()
  */
 void print_memory()
 {
-	fprintf(stderr,"print_memory not implemented yet\n");
+
+	void *item;
+	for(item = bst_iterate(avail_mem); item != NULL; item = bst_iterate(NULL)) {
+    memory_print((memory*)item);
+	}
+//fprintf(stderr,"print_memory not implemented yet\n");
 }
 
 /* init_alloc
@@ -82,43 +87,57 @@ void *my_malloc(int num_bytes)
 			// bst_item_or_successor
 	// 2. Use split memory if chunk of memory is more than twice the size
 	memory* new_mem = memory_new(NULL, num_bytes);
-	printf("%p\n", bst_item_or_successor(avail_mem, new_mem));
+	//printf("%p\n", bst_item_or_successor(avail_mem, new_mem));
 	memory* space = (memory*)bst_item_or_successor(avail_mem, new_mem);
 
 
 	if (space == NULL){
+		printf("%u\n", num_bytes);
+		printf("ONE\n");
 		// Save the size of each assinged memory chunk in a poitner with the add_to_address__alloc
 		// eight fewer than the address of the memory chunk
 		unsigned int* size_ptr;
 		memory* empty;
 
-		// Need to check if new page is more than double need to allocate all
 		empty = allocate_memory_page();
 
-		// if (space->size >= num_bytes * 2){
-		//
-		// }
-		void* split = split_memory(empty, (unsigned int) num_bytes);
-//printf("Space Size %u\n", space->size);
-		size_ptr = add_to_address_alloc(split, -8);
-		printf("byres %u\n", num_bytes);
-		*size_ptr = num_bytes;
+	// If num bytes is greater than half of entire page then you need to give them
+	// entire new block
+		if (4088 >= num_bytes * 2){
 
-		bst_insert(avail_mem, empty);
-		return split;
+			void* split = split_memory(empty, (unsigned int) num_bytes);
+			size_ptr = add_to_address_alloc(split, -8);
+
+			*size_ptr = num_bytes;
+
+			bst_insert(avail_mem, empty);
+			return split;
+		}
+		else {
+
+			unsigned int* size_ptr;
+			void* save = space->addr;
+
+			bst_delete(avail_mem, space);
+			memory_free(space);
+
+			size_ptr = add_to_address_alloc(save, -8);
+			*size_ptr = (unsigned int) num_bytes;
+			// Why are you adding to space->addr. It should be in the right spot already
+			return add_to_address_alloc(space->addr, 8);
+		}
+
 	}
 
 	else if (space->size >= num_bytes * 2){
 		// use space
+				printf("%u\n", num_bytes);
+		printf("TWO\n");
 		unsigned int* size_ptr;
 		void* split = split_memory(space, num_bytes * 2);
 
 		bst_delete(avail_mem, space);
 
-		// Is this done in split_memory
-		// space->size -= num_bytes;
-		// space->size -= 8;
-printf("Space Size %u\n", space->size);
 		size_ptr = add_to_address_alloc(split, -8);
 		*size_ptr = (unsigned int) num_bytes;
 
@@ -127,13 +146,15 @@ printf("Space Size %u\n", space->size);
 		return split;
 	}
 	else {
+		printf("THREE\n");
+				printf("%u\n", num_bytes);
 		// Allocating entire remaining chunk if less than 2*num_bytes
 		unsigned int* size_ptr;
 		void* save = space->addr;
 
 		bst_delete(avail_mem, space);
 		memory_free(space);
-		
+
 		size_ptr = add_to_address_alloc(save, -8);
 		*size_ptr = (unsigned int) num_bytes;
 		// Why are you adding to space->addr. It should be in the right spot already

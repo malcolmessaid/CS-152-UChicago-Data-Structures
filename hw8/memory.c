@@ -112,9 +112,11 @@ memory *allocate_memory_page() {
  */
 void *split_memory(memory* data, unsigned int size_desired) {
 
-
+printf("Earler Size from split_memory:  %u\n", data->size);
+printf("size desired%u\n", size_desired);
   data->size = data->size - size_desired - 8;
   // THis might be plus 16
+  printf("Size from split_memory:  %u\n", data->size);
   return add_to_address(data->addr, data->size + 8);
 
 }

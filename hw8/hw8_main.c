@@ -36,13 +36,44 @@ void successor_test(bst *b, void *item) {
 
 }
 
+
+void delete_test(bst* b, memory* data){
+  printf("deleted: ");
+  memory_print(data);
+  bst_delete(b, data);
+  print_tree(b);
+}
+
+
+
+// need to test for throughly
+void my_malloc_tester(bst *b, unsigned int bytes){
+  printf("my_malloc TEST:\n");
+
+  printf("Tree Before:\n");
+  print_tree(b);
+
+
+
+
+  my_malloc(bytes);
+
+  printf("Size subtracted by %u\n", bytes);
+  printf("Tree after Call\n");
+
+  print_tree(b);
+  printf("\n");
+
+}
+
+
 void free_test(bst *b, void *address, int size){
   printf("my_free Test:\n");
   printf("Tree Before\n");
   print_tree(b);
 
   my_free(address);
-  printf("%u\n", );
+  // printf("%u\n", );
 
   printf("Should insert ");
   memory* expected = memory_new(address, size);
@@ -78,14 +109,21 @@ int main() {
   bst* temp = make_simple_bst();
 
   //
-  successor_test(temp, memory_new(malloc(50) ,32));
+  // successor_test(temp, memory_new(malloc(50) ,32));
 
+
+  delete_test(temp, memory_new(malloc(50) ,48));
 
   // Free Tests
   init_alloc();
   // void * da = my_malloc(400);
   // my_free(da);
-  free_test(avail_mem, my_malloc(150), 150);
+//  free_test(avail_mem, my_malloc(150), 150);
+
+
+  // my_malloc_tester(avail_mem, 50);
+  // my_malloc_tester(avail_mem, 150);
+  // my_malloc_tester(avail_mem, 2000);
 
   return 0;
 }
