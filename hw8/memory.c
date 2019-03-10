@@ -155,6 +155,10 @@ memory *merge_memory(memory *first, memory *second) {
     bst_delete(avail_mem, first);
     bst_delete(avail_mem, second);
 
+    // Am I freeing properly
+    free(first);
+    free(second);
+
     bst_insert(new);
     return new;
   }
