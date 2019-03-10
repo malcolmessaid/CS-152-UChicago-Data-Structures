@@ -24,7 +24,7 @@ void memory_free(void* p){
  * if x is greater than y, return 1
  * if they are equal, return 0
  */
- // Pay attention to bugs here
+ // How do you compare addresses if they are void pointers
 int memory_addr_cmp(const void* x, const void* y){
   //TODO
   memory *mem1 = (memory*)x;
@@ -94,7 +94,7 @@ memory *allocate_memory_page() {
   void *mem = malloc(4096);
   memory* newmem;
   // This might be wrong. Could it be at the beginning
-  newmem =  memory_new(add_to_address(mem, 8) , 4088);
+  newmem =  memory_new(mem , 4088);
 
   return newmem;
 
@@ -112,11 +112,41 @@ memory *allocate_memory_page() {
  */
 void *split_memory(memory* data, unsigned int size_desired) {
 
-printf("Earler Size from split_memory:  %u\n", data->size);
-printf("size desired%u\n", size_desired);
+
   data->size = data->size - size_desired - 8;
   // THis might be plus 16
-  printf("Size from split_memory:  %u\n", data->size);
-  return add_to_address(data->addr, data->size + 8);
 
+
+  // Points to the beginning of the usable chunk
+  return add_to_address(data->addr, data->size + 16);
+
+}
+
+/* merge_memory
+ *
+ * Given two memory structs, check to see if the two can be
+ * merged. They can be merged if the two are next to each other
+ * in memory with no break in between. If they can be merged,
+ * return a memory struct pointer to a struct containing the information
+ * for a single memory chunk containing the old two chunks.
+ * If they cannot be merged (there is space between them), then
+ * return NULL;
+ *
+ * Make sure that you free any memory structs that you need to.
+ */
+memory *merge_memory(memory *first, memory *second) {
+  // This can only be done properly if I understand where things are pointing to.
+  void* f_add = first->address;
+  void* s_add= second->address;
+
+  unsigned int* f_size;
+  unsigned int* f_size;
+  f_size = add_to_address_alloc(f_add, -8);
+
+  // This should probably work, but if it turns out you need to get rid of those
+  // 8 bytes then get rid of 8
+  if (memory_addr_cmp(add_to_address(f_add, 8 + first->size),
+        s_add ) == 0){
+
+  }
 }
