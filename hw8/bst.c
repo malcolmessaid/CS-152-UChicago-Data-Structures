@@ -54,6 +54,20 @@ void bst_insert(bst* b, void* data){
   b->root = node_insert(b->root, data, b->cmp);
 }
 
+
+// Helper function for node_delete. Returns left most node
+// in right sub tree, which will be used to replace the deleted
+// node
+node* left_leaf(node* root){
+  node* temp = root;
+
+  if (temp->left == NULL){
+    return temp;
+  }
+  return left_leaf(temp->left);
+
+}
+
 /* delete a node from a subtree with a given root node
  * use the comparison function to search the node and delete
  * it when a matching node is found. This function only
@@ -62,53 +76,59 @@ void bst_insert(bst* b, void* data){
  * we found is deleted.
  * Return the new root node after deletion.
  */
-node* node_delete(node* root, void* data,
-    int (*cmp)(const void* x, const void* y)){
+ node* node_delete(node* root, void* data,
+     int (*cmp)(const void* x, const void* y)){
 
-			  if (root == NULL){
-			    return NULL;
-			  }
+//	 print_memory(root->data)l;
+   if (root == NULL){
+		 printf("BASE CASE\n");
+     return root;
+   }
 
-			  if (cmp(root, data) == -1){
-			    return node_delete(root->left, data, cmp);
-			  }
+   if (cmp(root->data, data) == 1){
+		 	 printf("-1 CASE\n");
+			 memory_print(root->data);
+    root->left = node_delete(root->left, data, cmp);
+		return root;
+   }
 
-			  else if (cmp(root, data) == 1){
-			    return node_delete(root->right, data, cmp);
-			  }
+   else if (cmp(root->data, data) == -1){
+		 	 printf("1 CASE\n");
+			 memory_print(root->data);
+     root->right = node_delete(root->right, data, cmp);
+		 return root;
+   }
 
-			  else {
-			    if (root->right == NULL){
-			      node* temp = root->left;
-			      free(root);
-			      return temp;
-			    }
-			    else if (root->left == NULL){
-			      node* temp = root->right;
-			      free(root);
-			      return temp;
-			    }
-			    else if (cmp(root->left, root->right) < 1){
-			      node* temp = root->right;
-			      root->data = temp->data;
-			      root->right = node_delete(root->right, temp, cmp);
-			      return temp;
-			    }
-			    else {
-			      node* temp = root->left;
-			      root->data = temp->data;
-			      root->left = node_delete(root->left, temp, cmp);
-			      return temp;
-			    }
-			  }
+   else {
+     if (root->right == NULL){
+			 printf("ONE\n");
+       node* temp = root->left;
+       free(root);
+       return temp;
+     }
+     else if (root->left == NULL){
+			 printf("TWO\n");
+			 node* temp = root->right;
+       free(root);
+       return temp;
+     }
 
-			  return NULL;
-}
+		 printf("THREE\n");
+     node* min_in_right = left_leaf(root->right);
+
+     root->data = min_in_right->data;
+     root->right = node_delete(root->right, min_in_right->data, cmp);
+   }
+
+   return root;
+ }
+
+
 
 /* delete a node containing data from the bst
  */
 void bst_delete(bst* b, void* data){
-  node_delete(b->root, data, b->cmp);
+  b->root = node_delete(b->root, data, b->cmp);
 }
 
 /* Search for a node containing data in a subtree with
