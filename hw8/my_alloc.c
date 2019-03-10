@@ -14,6 +14,7 @@
 
 /* This is the tree that holds the available memory. */
 bst *avail_mem = NULL;
+bst *address_sorted_mem = NULL;
 
 /* This includes all of the functions for the memory allocator.
  * The last two functions (my_malloc and my_free) are public
@@ -22,6 +23,14 @@ bst *avail_mem = NULL;
  * my_free. You must implement these helper functions. If you wish,
  * you may add helper functions we did not define.
  */
+
+ bst* init_address_bst(){
+	 address_sorted_mem = bst_new(memory_addr_cmp);
+	 void *item;
+	 for(item = bst_iterate(avail_mem); item != NULL; item = bst_iterate(NULL)){
+		 bst_insert(address_sorted_mem, item);
+	 }
+ }
 
 /* compact_memory
  *
@@ -32,6 +41,12 @@ bst *avail_mem = NULL;
  */
 void compact_memory()
 {
+	init_address_bst();
+	void *item;
+	for(item = bst_iterate(address_sorted_mem); item != NULL; item = bst_iterate(NULL)){
+    // am i using the iterator correctly??
+		if (merge_memory(item, bst_iterate(NULL)))
+	}
 	fprintf(stderr,"compact_memory not implemented yet\n");
 }
 
@@ -186,6 +201,7 @@ void my_free(void *address)
 	// i guess you could make the address address -= 8. so that i had the data
 	// all referenced by the memory struct
 	memory* new = memory_new(add_to_address_alloc(address, -8), *size);
+	// This means that memory struct has size stored too
 	bst_insert(avail_mem, new);
 	return;
 }
