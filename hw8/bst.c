@@ -273,7 +273,6 @@ void* node_item_or_successor(node *n, void *item,
 			return NULL;
 		}
 
-
 		if (cmp(item, n->data) == 0) {
 			return n->data;
 		}
@@ -297,5 +296,12 @@ void* node_item_or_successor(node *n, void *item,
 
 
 void* bst_item_or_successor(bst *b, void *item){
-	return node_item_or_successor(b->root, item, b->cmp);
+	if (b == NULL){
+		return NULL;
+	}
+
+	else {
+		return node_item_or_successor(b->root, item, b->cmp);
+	}
+
 }
