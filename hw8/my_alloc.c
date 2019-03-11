@@ -24,7 +24,7 @@ bst *address_sorted_mem = NULL;
  * you may add helper functions we did not define.
  */
 
- bst* init_address_bst(){
+ void init_address_bst(){
 	 address_sorted_mem = bst_new(memory_addr_cmp);
 	 void *item;
 	 for(item = bst_iterate(avail_mem); item != NULL; item = bst_iterate(NULL)){
@@ -45,7 +45,10 @@ void compact_memory()
 	void *item;
 	for(item = bst_iterate(address_sorted_mem); item != NULL; item = bst_iterate(NULL)){
     // am i using the iterator correctly??
-    void *item_two = merge_memory(item, bst_iterate(NULL));
+    void* next_item = bst_iterate(NULL);
+    void *item_two = merge_memory(item, next_item);
+
+    bst_delete(avail_mem, second);
 
     // If there is a merge, then keep going through list until no merge is necesassy
     // This is so the following node is not skipped.
