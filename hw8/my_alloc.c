@@ -14,7 +14,7 @@
 
 /* This is the tree that holds the available memory. */
 bst *avail_mem = NULL;
-bst *address_sorted_mem = NULL;
+//bst *address_sorted_mem = NULL;
 
 /* This includes all of the functions for the memory allocator.
  * The last two functions (my_malloc and my_free) are public
@@ -27,12 +27,13 @@ bst *address_sorted_mem = NULL;
 
 
 
- void init_address_bst(){
-	 address_sorted_mem = bst_new(memory_addr_cmp);
+ bst* init_address_bst(){
+	 bst* address_sorted_mem = bst_new(memory_addr_cmp);
 	 void *item;
 	 for(item = bst_iterate(avail_mem); item != NULL; item = bst_iterate(NULL)){
 		 bst_insert(address_sorted_mem, item);
 	 }
+   return address_sorted_mem;
  }
 
 /* compact_memory
@@ -44,14 +45,14 @@ bst *address_sorted_mem = NULL;
  */
 void compact_memory()
 {
-	init_address_bst();
+	bst* add_bst = init_address_bst();
+
 	void *item;
-	for(item = bst_iterate(address_sorted_mem); item != NULL; item = bst_iterate(NULL)){
+	for(item = bst_iterate(add_bst); item != NULL; item = bst_iterate(NULL)){
     // am i using the iterator correctly??
     void* next_item = bst_iterate(NULL);
     memory_print((memory*)next_item);
     void *item_two = merge_memory(item, next_item);
-
 
 
     // If there is a merge, then keep going through list until no merge is necesassy
@@ -109,15 +110,10 @@ void *my_malloc(int num_bytes)
 	if ((num_bytes % 8) != 0) {
 		num_bytes += (8 - (num_bytes % 8));
 	}
-
-	// 1. Bst successor to find a piece of memory that is equal to or larger
-			// bst_item_or_successor
-	// 2. Use split memory if chunk of memory is more than twice the size
 	memory* new_mem = memory_new(NULL, num_bytes);
-	//printf("%p\n", bst_item_or_successor(avail_mem, new_mem));
 	memory* space = (memory*)bst_item_or_successor(avail_mem, new_mem);
 
-
+  memory_print(space);
 	if (space == NULL){
 
 		// Save the size of each assinged memory chunk in a poitner with the add_to_address__alloc
@@ -140,17 +136,18 @@ void *my_malloc(int num_bytes)
 			return split;
 		}
 		else {
+      // How do you do this poropelry. Are you suppoed to free
 
 			unsigned int* size_ptr;
-			void* save = space->addr;
+			void* save = empty->addr;
 
-			bst_delete(avail_mem, space);
-			memory_free(space);
+      //memory_free(space);
 
 			size_ptr = add_to_address_alloc(save, -8);
+
 			*size_ptr = (unsigned int) num_bytes;
 			// Why are you adding to space->addr. It should be in the right spot already
-			return add_to_address_alloc(space->addr, 8);
+			return add_to_address_alloc(empty->addr, 8);
 		}
 
 	}
@@ -182,18 +179,20 @@ void *my_malloc(int num_bytes)
 
 		size_ptr = add_to_address_alloc(save, -8);
 		*size_ptr = (unsigned int) num_bytes;
-		// Why are you adding to space->addr. It should be in the right spot already
-		// The whoole thing is broken. memory struct at the beginning cannot point to beginning and others point to usable part\
-		// there is no way of knowing how to return the usable spot in add_to_address_alloc
 
-		// The below is correct if space is the oringinal memory struct pointing to the
-		// the beginning of a page. But it is incorrect if it is one of the structs
-		// created by my_free becasue those address are said to be pointing to the
-		// usable data
 		return add_to_address_alloc(space->addr, 8);
 	}
 	return NULL;
 }
+
+// Why are you adding to space->addr. It should be in the right spot already
+// The whoole thing is broken. memory struct at the beginning cannot point to beginning and others point to usable part\
+// there is no way of knowing how to return the usable spot in add_to_address_alloc
+
+// The below is correct if space is the oringinal memory struct pointing to the
+// the beginning of a page. But it is incorrect if it is one of the structs
+// created by my_free becasue those address are said to be pointing to the
+// usable data
 
 /* my_free
  *

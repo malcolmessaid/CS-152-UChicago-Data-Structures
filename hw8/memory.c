@@ -148,8 +148,9 @@ memory *merge_memory(memory *first, memory *second) {
   f_size = add_to_address(f_add, -8);
   s_size = add_to_address(s_add, -8);
 
-  if (memory_addr_cmp(add_to_address(f_add, 8 + first->size),s_add) == 0){
+  if (add_to_address(f_add, 8 + first->size) == s_add){
     first->size = (8 + first->size + second->size);
+  //  printf("%s\n", );
     *f_size = 8 + first->size + second->size;
 
 // Delete this based on decison

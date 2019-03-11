@@ -207,9 +207,9 @@ int main() {
   // successor_test(temp, memory_new(malloc(50) ,32));
 //  print_tree(temp);
   printf("Delete Tests\n");
-  delete_test(temp, memory_new(malloc(50) ,48));
+  delete_test(temp, memory_new(malloc(50), 48));
   printf("\n");
-  delete_test(temp, memory_new(malloc(50) ,41324));
+  delete_test(temp, memory_new(malloc(50), 41324));
 
   // Free Tests
   init_alloc();
@@ -228,18 +228,52 @@ int main() {
 
 
   printf("my_free Tests\n");
+  void* addr1 = my_malloc(400);
+  void* addr2 = my_malloc(30);
+  print_tree(avail_mem);
+
+  my_free(addr1);
+  my_free(addr2);
+
+  printf("My free call\n");
+  print_tree(avail_mem);
 
 
 
-  printf("\nMerge Tests\n");
-  print_memory();
+  printf("\nMerge Tests and Compacting \n");
+  // memory* merge1 = bst_iterate(avail_mem);
+  // memory* merge2 = bst_iterate(NULL);
+  // memory* merge3 = bst_iterate(NULL);
+  // print_memory();
 
+  free(avail_mem);
+  init_alloc();
+  printf("hemm\n");
+  print_tree(avail_mem);
+  printf("he\n");
+  void* one = my_malloc(48);
+  void* two = my_malloc(1);
+  void* third = my_malloc(4000);
+  void* four = my_malloc(4050);
+  print_tree(avail_mem);
+  printf("hetwo\n");
+  my_free(one);
+  my_free(two);
+  my_free(third);
+  my_free(four);
+  // merge_test(merge2, merge1,
+  //   memory_new(merge1->addr, merge1->size + merge2->size + 8));
+  // //merge_test(merge1, merge2, )
 
+  print_tree(avail_mem);
+  memory* merge1 = bst_iterate(avail_mem);
+  memory* merge2 = bst_iterate(NULL);
+  memory* merge3 = bst_iterate(NULL);
 
-  printf("Creating set of memory structs artificaily\n");
-
-  // merge_test()
-
+  printf("memt test\n");
+  memory_print(merge_memory(merge1, merge2));
+  //memory_print(merge_memory(me, third));
+  //memory_print(merge_memory(one, two));
 
   printf("Height Tests\n");
   bst* temp2 = make_simple_bst();
