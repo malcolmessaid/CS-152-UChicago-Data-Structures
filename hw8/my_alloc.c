@@ -48,7 +48,7 @@ void compact_memory()
     void* next_item = bst_iterate(NULL);
     void *item_two = merge_memory(item, next_item);
 
-    bst_delete(avail_mem, second);
+
 
     // If there is a merge, then keep going through list until no merge is necesassy
     // This is so the following node is not skipped.
