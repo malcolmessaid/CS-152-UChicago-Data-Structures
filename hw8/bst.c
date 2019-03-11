@@ -76,45 +76,36 @@ node* left_leaf(node* root){
  * we found is deleted.
  * Return the new root node after deletion.
  */
- //  MAYBE YOU CHANGE HEIGHT BY NOT FREEING LEAFS PROPERLY. MAKE A HEIGHT TESTER
  node* node_delete(node* root, void* data,
      int (*cmp)(const void* x, const void* y)){
 
 
    if (root == NULL){
-//		 printf("BASE CASE\n");
      return root;
    }
 
    if (cmp(root->data, data) == 1){
-	//	 	 printf("-1 CASE\n");
-			// memory_print(root->data);
     root->left = node_delete(root->left, data, cmp);
 		return root;
    }
 
    else if (cmp(root->data, data) == -1){
-		// 	 printf("1 CASE\n");
-		//	 memory_print(root->data);
      root->right = node_delete(root->right, data, cmp);
 		 return root;
    }
 
    else {
      if (root->right == NULL){
-			// printf("ONE\n");
        node* temp = root->left;
        free(root);
        return temp;
      }
      else if (root->left == NULL){
-			// printf("TWO\n");
 			 node* temp = root->right;
        free(root);
        return temp;
      }
 
-		// printf("THREE\n");
      node* min_in_right = left_leaf(root->right);
 
      root->data = min_in_right->data;

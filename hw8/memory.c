@@ -2,6 +2,8 @@
 #include<stdlib.h>
 #include "memory.h"
 #include "my_alloc.h"
+// Ask if you can do this
+#include "bst.h"
 
 extern bst* avail_mem;
 
@@ -139,8 +141,8 @@ void *split_memory(memory* data, unsigned int size_desired) {
  */
 memory *merge_memory(memory *first, memory *second) {
   // This can only be done properly if I understand where things are pointing to.
-  void* f_add = first->address;
-  void* s_add= second->address;
+  void* f_add = first->addr;
+  void* s_add= second->addr;
 
   unsigned int* f_size;
   unsigned int* s_size;
@@ -149,17 +151,17 @@ memory *merge_memory(memory *first, memory *second) {
 
 // Todo: figure out way to free s_size.
   if (memory_addr_cmp(add_to_address(f_add, 8 + first->size),s_add) == 0){
-    memory* new = memory_new(f_add, 8 + first->size + second->size);
+    first->size = (8 + first->size + second->size);
     *f_size = 8 + first->size + second->size;
 
-    bst_delete(avail_mem, first);
+
+// I think this needs to be done in compact memory
     bst_delete(avail_mem, second);
 
     // Am I freeing properly
-    free(first);
     free(second);
 
-    bst_insert(new);
+  //  bst_insert(avail_mem, new);
     return new;
   }
   //FREE THE OLD STRUCTS IN HEREE
