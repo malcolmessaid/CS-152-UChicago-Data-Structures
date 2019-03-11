@@ -115,8 +115,29 @@ void delete_test(bst* b, memory* data){
   print_tree(b);
 }
 
-void merge_test(memory* first, memory* second, ){
+
+/* merge_test: tests to see if two nodes are propely merged if suppposed to be
+	* input:
+	*    node* n - node to calculate height of =
+	* output: int - height of node
+*/
+void merge_test(memory* first, memory* second, memory* expected){
   memory* result = merge_memory(first, second);
+
+  if (result == NULL && expected == NULL){
+    printf("Test Passed merge_memory: did not merge\n");
+    return;
+  }
+  else if (result == expected){
+    printf("Test Passed merge_memory: Test Passed memories properly merged\n");
+    return;
+  }
+
+  else {
+    printf("Test Failed merge_memory: expected: %p actual: %p\n",
+      expected, result);
+    return;
+  }
 }
 
 
@@ -197,11 +218,27 @@ int main() {
 //  free_test(avail_mem, my_malloc(150), 150);
 
 
+  printf("my_malloc Tests\n");
+
   my_malloc_tester(avail_mem, 50);
   my_malloc_tester(avail_mem, 150);
-  my_malloc_tester(avail_mem, 2000);
+
+//ADDRESS HOW THIS BREAKS THIS FUNCTIONS. SHOULD IT? WHAT ELSE SHOULD IT DO
+//  my_malloc_tester(avail_mem, 2000);
 
 
+  printf("my_free Tests\n");
+
+
+
+  printf("\nMerge Tests\n");
+  print_memory();
+
+
+
+  printf("Creating set of memory structs artificaily\n");
+
+  // merge_test()
 
 
   printf("Height Tests\n");

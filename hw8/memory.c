@@ -140,7 +140,6 @@ void *split_memory(memory* data, unsigned int size_desired) {
  * Make sure that you free any memory structs that you need to.
  */
 memory *merge_memory(memory *first, memory *second) {
-  // This can only be done properly if I understand where things are pointing to.
   void* f_add = first->addr;
   void* s_add= second->addr;
 
@@ -149,22 +148,23 @@ memory *merge_memory(memory *first, memory *second) {
   f_size = add_to_address(f_add, -8);
   s_size = add_to_address(s_add, -8);
 
-// Todo: figure out way to free s_size.
   if (memory_addr_cmp(add_to_address(f_add, 8 + first->size),s_add) == 0){
     first->size = (8 + first->size + second->size);
     *f_size = 8 + first->size + second->size;
 
+// Delete this based on decison
+// Please Note: In the directions it says to free uneeded structs here. But
+// from Piazza and what I think make more sense, I will free the structs in
+// compact_memory instead;
 
-// I think this needs to be done in compact memory
+
+// You need to delete based on address not size
     bst_delete(avail_mem, second);
 
-    // Am I freeing properly
     free(second);
 
-  //  bst_insert(avail_mem, new);
-    return new;
+    return first;
   }
-  //FREE THE OLD STRUCTS IN HEREE
   else {
     return NULL;
   }
