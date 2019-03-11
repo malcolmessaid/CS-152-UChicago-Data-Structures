@@ -24,6 +24,9 @@ bst *address_sorted_mem = NULL;
  * you may add helper functions we did not define.
  */
 
+
+
+
  void init_address_bst(){
 	 address_sorted_mem = bst_new(memory_addr_cmp);
 	 void *item;
@@ -46,6 +49,7 @@ void compact_memory()
 	for(item = bst_iterate(address_sorted_mem); item != NULL; item = bst_iterate(NULL)){
     // am i using the iterator correctly??
     void* next_item = bst_iterate(NULL);
+    memory_print((memory*)next_item);
     void *item_two = merge_memory(item, next_item);
 
 
@@ -70,7 +74,6 @@ void print_memory()
 	for(item = bst_iterate(avail_mem); item != NULL; item = bst_iterate(NULL)) {
     memory_print((memory*)item);
 	}
-//fprintf(stderr,"print_memory not implemented yet\n");
 }
 
 /* init_alloc

@@ -27,4 +27,18 @@ void *my_malloc(int num_bytes);
  */
 void my_free(void *address);
 
+
+/* compact_memory
+ *
+ * Search through all available memory and attempt to merge memory
+ * that is stored next to each other.
+ * This uses global variable avail_mem, so it does not need any
+ * input parameters. Look at the bst functions and memory functions.
+ */
+void compact_memory();
+
+
+//Take this out
+void print_memory();
+
 #endif
