@@ -279,8 +279,12 @@ printf("Printing Memories in the tree from free\n");
 
 
   printf("Testing Merge Memory\n");
-  memory_print(merge_memory(merge2, merge1));
-  //memory_print(merge_memory(merge2, merge5));
+  memory_print(merge_memory(merge1, merge2));
+  printf("first merge cal;led\n");
+  print_tree(avail_mem);
+  memory_print(merge_memory(merge5, merge1));
+    printf("second merge cal;led\n");
+    print_tree(avail_mem);
   //memory_print(merge_memory(me, third));
   //memory_print(merge_memory(one, two));
 
