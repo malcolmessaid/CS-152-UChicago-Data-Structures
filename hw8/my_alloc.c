@@ -128,8 +128,10 @@ void *my_malloc(int num_bytes)
 	// If num bytes is greater than half of entire page then you need to give them
 	// entire new block
 		if (4088 >= num_bytes * 2){
+      printf("aaisdfsd dasfasd fdfas \n");
 
 			void* split = split_memory(empty, (unsigned int) num_bytes);
+      printf("split addresse %p\n", split);
 			size_ptr = add_to_address_alloc(split, -8);
 
 			*size_ptr = num_bytes;
@@ -143,15 +145,18 @@ void *my_malloc(int num_bytes)
 
 			unsigned int* size_ptr;
 			void* save = empty->addr;
-
+      printf("save addresse %p\n", save);
+      save = add_to_address_alloc(save, 8);
+printf("save addresse %p\n", save);
       //memory_free(space);s
 
 			size_ptr = add_to_address_alloc(save, -8);
-
+      printf("save addresse %p\n", save);
 			*size_ptr = (unsigned int) num_bytes;
 			// Why are you adding to space->addr. It should be in the right spot already
       printf("size ptr %d\n", *size_ptr);
-			return empty->addr;
+      printf("save addresse %p\n", save);
+			return save;
 		}
 
 	}
@@ -160,14 +165,14 @@ void *my_malloc(int num_bytes)
 		// use space
 		unsigned int* size_ptr;
 		// Split is the address of the usable data
-		void* split = split_memory(space, num_bytes * 2);
+		void* split = split_memory(space, num_bytes);
 
 		bst_delete(avail_mem, space);\
     printf("USES THIS ONE %p\n", split);
 
 		size_ptr = add_to_address_alloc(split, -8);
 		// ABOVE LINE SHOULD SHOW THAT SPACE ADDRESS IS POINTING TO USABLE MEMORY
-		*size_ptr = (unsigned int) num_bytes;
+		*size_ptr = (unsigned int) (num_bytes);
 
 		bst_insert(avail_mem, space);
     printf("size ptr %d\n", *size_ptr);

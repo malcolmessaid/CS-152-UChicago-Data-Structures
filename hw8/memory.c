@@ -155,21 +155,25 @@ memory *merge_memory(memory *first, memory *second) {
   // printf("merge 5 plus 128 %p\n", add_to_address(s_add, 128));
   // printf("merge 5 plus 136 %p\n", add_to_address(s_add, 136));
 
-
-  printf("second size %d\n", 48 + 16);
-  printf("%d\n", second->size);
-  printf("Second Address Plus Size %p\n", add_to_address(s_add, 64));
-  printf("First address %p\n", f_add);
-
-  printf("First Address Plus Size %p\n", add_to_address(f_add, 8 + first->size));
-  printf("Second address %p\n", s_add);
+  //
+  // printf(" %d\n", 48 + 16);
+  // printf("second size %d\n", second->size);
+  //   printf("first size %d\n", first->size);
+  // printf("Second Address Plus Size %p\n", add_to_address(s_add, 8 + second->size));
+  // printf("First address %p\n", f_add);
+  //
+  // printf("First Address Plus Size %p\n", add_to_address(f_add, 8 + first->size));
+  // printf("Second address %p\n", add_to_address(s_add , 8));
 
 
   if ((add_to_address(f_add, 8 + first->size) == s_add) ||
       add_to_address(s_add, 8 + second->size) == f_add){
-    first->size = (8 + first->size + second->size);
+
   //  printf("%s\n", );
-    *f_size = 8 + first->size + second->size;
+  printf("second size %d\n", second->size);
+    printf("first size %d\n", first->size);
+    first->size = (8 + first->size + second->size);
+    *f_size = first->size;
     printf("Here %d\n", *f_size);
 
 // Delete this based on decison
