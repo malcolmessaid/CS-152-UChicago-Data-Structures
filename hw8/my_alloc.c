@@ -115,7 +115,7 @@ void *my_malloc(int num_bytes)
 	memory* new_mem = memory_new(NULL, num_bytes);
 	memory* space = (memory*)bst_item_or_successor(avail_mem, new_mem);
 
-  memory_print(space);
+  //memory_print(space);
 	if (space == NULL){
 
 		// Save the size of each assinged memory chunk in a poitner with the add_to_address__alloc
@@ -133,8 +133,9 @@ void *my_malloc(int num_bytes)
 			size_ptr = add_to_address_alloc(split, -8);
 
 			*size_ptr = num_bytes;
-
+      memory_print(empty);
 			bst_insert(avail_mem, empty);
+      printf("size ptr %d\n", *size_ptr);
 			return split;
 		}
 		else {
@@ -149,7 +150,8 @@ void *my_malloc(int num_bytes)
 
 			*size_ptr = (unsigned int) num_bytes;
 			// Why are you adding to space->addr. It should be in the right spot already
-			return add_to_address_alloc(empty->addr, 8);
+      printf("size ptr %d\n", *size_ptr);
+			return empty->addr;
 		}
 
 	}
@@ -160,14 +162,15 @@ void *my_malloc(int num_bytes)
 		// Split is the address of the usable data
 		void* split = split_memory(space, num_bytes * 2);
 
-		bst_delete(avail_mem, space);
+		bst_delete(avail_mem, space);\
+    printf("USES THIS ONE %p\n", split);
 
 		size_ptr = add_to_address_alloc(split, -8);
 		// ABOVE LINE SHOULD SHOW THAT SPACE ADDRESS IS POINTING TO USABLE MEMORY
 		*size_ptr = (unsigned int) num_bytes;
 
 		bst_insert(avail_mem, space);
-
+    printf("size ptr %d\n", *size_ptr);
 		return split;
 	}
 	else {
@@ -182,7 +185,9 @@ void *my_malloc(int num_bytes)
 		size_ptr = add_to_address_alloc(save, -8);
 		*size_ptr = (unsigned int) num_bytes;
 
-		return add_to_address_alloc(space->addr, 8);
+    printf("%d\n", *size_ptr);
+		return save;
+    //add_to_address_alloc(space->addr, 8);
 	}
 	return NULL;
 }
@@ -213,7 +218,7 @@ void my_free(void *address)
 // BIG DECISION ABOUT ADDRESSES HERE
 	// i guess you could make the address address -= 8. so that i had the data
 	// all referenced by the memory struct
-	memory* new = memory_new(add_to_address_alloc(address, -8), *size);
+	memory* new = memory_new(address, *size);
 	// This means that memory struct has size stored too
 	bst_insert(avail_mem, new);
 	return;
