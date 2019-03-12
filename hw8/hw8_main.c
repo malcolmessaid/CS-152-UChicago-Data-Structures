@@ -241,40 +241,46 @@ int main() {
 
 
   printf("\nMerge Tests and Compacting \n");
-  // memory* merge1 = bst_iterate(avail_mem);
-  // memory* merge2 = bst_iterate(NULL);
-  // memory* merge3 = bst_iterate(NULL);
-  // print_memory();
 
   free(avail_mem);
   init_alloc();
-  printf("hemm\n");
-  print_tree(avail_mem);
-  printf("he\n");
+//  print_tree(avail_mem);
   void* one = my_malloc(48);
   void* two = my_malloc(1);
-//  void* third = my_malloc(4000);
+  void* five = my_malloc(123);
+  //void* third = my_malloc(4000);
   //void* four = my_malloc(4050);
+  printf("Printing after calling my_malloc\n");
+
   print_tree(avail_mem);
-  printf("hetwo\n");
   my_free(one);
   my_free(two);
+  my_free(five);
+  printf("done freeing\n");
 //  my_free(third);
 //  my_free(four);
-  printf("HELLLLL\n");
+
   // merge_test(merge2, merge1,
   //   memory_new(merge1->addr, merge1->size + merge2->size + 8));
   // //merge_test(merge1, merge2, )
 
-  //print_tree(avail_mem);
+  print_tree(avail_mem);
   memory* merge1 = bst_iterate(avail_mem);
   memory* merge2 = bst_iterate(NULL);
-  memory_print(merge1);
-  memory_print(merge2);
+  memory* merge5 = bst_iterate(NULL);
 //  memory* merge3 = bst_iterate(NULL);
 
-  printf("memt test\n");
+
+printf("Printing Memories in the tree from free\n");
+  memory_print(merge1);
+  memory_print(merge2);
+  memory_print(merge5);
+
+
+
+  printf("Testing Merge Memory\n");
   memory_print(merge_memory(merge2, merge1));
+  //memory_print(merge_memory(merge2, merge5));
   //memory_print(merge_memory(me, third));
   //memory_print(merge_memory(one, two));
 
