@@ -148,6 +148,8 @@ memory *merge_memory(memory *first, memory *second) {
   f_size = add_to_address(f_add, -8);
   s_size = add_to_address(s_add, -8);
 
+  printf("%p\n", add_to_address(s_add, 8 + 8 + second->size));
+  printf("%p\n", f_add);
   if (add_to_address(f_add, 8 + first->size) == s_add){
     first->size = (8 + first->size + second->size);
   //  printf("%s\n", );
