@@ -55,8 +55,6 @@ void compact_memory()
     void *item_two = merge_memory(item, next_item);
 
 
-    // If there is a merge, then keep going through list until no merge is necesassy
-    // This is so the following node is not skipped.
 		while(item_two){
       item = bst_iterate(NULL);
       item_two = merge_memory(item, bst_iterate(NULL));
@@ -115,11 +113,8 @@ void *my_malloc(int num_bytes)
 	memory* new_mem = memory_new(NULL, num_bytes);
 	memory* space = (memory*)bst_item_or_successor(avail_mem, new_mem);
 
-  //memory_print(space);
 	if (space == NULL){
 
-		// Save the size of each assinged memory chunk in a poitner with the add_to_address__alloc
-		// eight fewer than the address of the memory chunk
 		unsigned int* size_ptr;
 		memory* empty;
 
@@ -128,59 +123,42 @@ void *my_malloc(int num_bytes)
 	// If num bytes is greater than half of entire page then you need to give them
 	// entire new block
 		if (4088 >= num_bytes * 2){
-      printf("aaisdfsd dasfasd fdfas \n");
 
 			void* split = split_memory(empty, (unsigned int) num_bytes);
-      printf("split addresse %p\n", split);
 			size_ptr = add_to_address_alloc(split, -8);
 
 			*size_ptr = num_bytes;
       memory_print(empty);
 			bst_insert(avail_mem, empty);
-      printf("size ptr %d\n", *size_ptr);
 			return split;
 		}
 		else {
-      // How do you do this poropelry. Are you suppoed to free
 
 			unsigned int* size_ptr;
 			void* save = empty->addr;
-      printf("save addresse %p\n", save);
       save = add_to_address_alloc(save, 8);
-printf("save addresse %p\n", save);
-      //memory_free(space);s
 
 			size_ptr = add_to_address_alloc(save, -8);
-      printf("save addresse %p\n", save);
 			*size_ptr = (unsigned int) num_bytes;
-			// Why are you adding to space->addr. It should be in the right spot already
-      printf("size ptr %d\n", *size_ptr);
-      printf("save addresse %p\n", save);
 			return save;
 		}
 
 	}
 
 	else if (space->size >= num_bytes * 2){
-		// use space
 		unsigned int* size_ptr;
-		// Split is the address of the usable data
 		void* split = split_memory(space, num_bytes);
 
 		bst_delete(avail_mem, space);\
-    printf("USES THIS ONE %p\n", split);
 
 		size_ptr = add_to_address_alloc(split, -8);
-		// ABOVE LINE SHOULD SHOW THAT SPACE ADDRESS IS POINTING TO USABLE MEMORY
 		*size_ptr = (unsigned int) (num_bytes);
 
 		bst_insert(avail_mem, space);
-    printf("size ptr %d\n", *size_ptr);
 		return split;
 	}
 	else {
 
-		// Allocating entire remaining chunk if less than 2*num_bytes
 		unsigned int* size_ptr;
 		void* save = space->addr;
 
@@ -190,21 +168,11 @@ printf("save addresse %p\n", save);
 		size_ptr = add_to_address_alloc(save, -8);
 		*size_ptr = (unsigned int) num_bytes;
 
-    printf("%d\n", *size_ptr);
 		return save;
-    //add_to_address_alloc(space->addr, 8);
 	}
 	return NULL;
 }
 
-// Why are you adding to space->addr. It should be in the right spot already
-// The whoole thing is broken. memory struct at the beginning cannot point to beginning and others point to usable part\
-// there is no way of knowing how to return the usable spot in add_to_address_alloc
-
-// The below is correct if space is the oringinal memory struct pointing to the
-// the beginning of a page. But it is incorrect if it is one of the structs
-// created by my_free becasue those address are said to be pointing to the
-// usable data
 
 /* my_free
  *
@@ -216,15 +184,9 @@ void my_free(void *address)
 {
 	unsigned int* size;
 	size = add_to_address_alloc(address, -8);
-	// are we supposed to free the storage of the size here
-	// If the info is being stored in the memory struct, why does it need
-	// to be allocated anymore.
 
-// BIG DECISION ABOUT ADDRESSES HERE
-	// i guess you could make the address address -= 8. so that i had the data
-	// all referenced by the memory struct
 	memory* new = memory_new(address, *size);
-	// This means that memory struct has size stored too
+
 	bst_insert(avail_mem, new);
 	return;
 }
