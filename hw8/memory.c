@@ -170,11 +170,10 @@ memory *merge_memory(memory *first, memory *second) {
       add_to_address(s_add, 8 + second->size) == f_add){
 
   //  printf("%s\n", );
-  printf("second size %d\n", second->size);
-    printf("first size %d\n", first->size);
+  // printf("second size %d\n", second->size);
+  //   printf("first size %d\n", first->size);
     first->size = (8 + first->size + second->size);
     *f_size = first->size;
-    printf("Here %d\n", *f_size);
 
 // Delete this based on decison
 // Please Note: In the directions it says to free uneeded structs here. But

@@ -92,18 +92,30 @@ void height_delete_test(bst* b, void* to_delete){
 }
 
 
+/* successor_test: tests bst_item_or_successor
+	* input:
+  *    bst* b - to test on
+  *    void* item - address to search for
+	* output: void - prints result of tests
+*/
+void successor_test(bst *b, void *item, memory* expected) {
 
-void successor_test(bst *b, void *item) {
-    printf("Successor Test: \n");
-    print_tree(b);
     memory* ret_val = (memory*)bst_item_or_successor(b, item);
 
-    printf("Inputed Memory Struct: ");
-    memory_print((memory*)item);
-    printf("Chosen Memory Struct: ");
-    memory_print(ret_val);
-    printf("\n");
-    //printf("Successor: %p\n", );
+    if (expected == ret_val){
+      printf("Test Passsed bst_item_or_successor\n");
+    }
+    else if (b->cmp(expected, ret_val) == 0){
+      printf("Test Passsed bst_item_or_successor\n");
+    }
+    else {
+      printf("Test Failed bst_item_or_successor\n");
+      printf("Inputed Memory Struct: ");
+      memory_print((memory*)item);
+      printf("Chosen Memory Struct: ");
+      memory_print(ret_val);
+    }
+
 
 }
 
@@ -142,32 +154,42 @@ void merge_test(memory* first, memory* second, memory* expected){
 
 
 
-// need to test for throughly
+/* my_malloc_tester: tests my_malloc. my_malloc is also used throughout main and
+  * works properly so there is implicit more thorough testing
+	* input:
+  *    bst* b - to test on
+  *    unsigned int bytes - num_bytes for my_malloc call
+	* output: void: visually inspect to find results
+*/
 void my_malloc_tester(bst *b, unsigned int bytes){
-  printf("my_malloc TEST:\n");
+  printf("my_malloc call on %u and bellow tree:\n", bytes);
+  printf("visually inspect\n");
 
   printf("Tree Before:\n");
   print_tree(b);
 
-
   my_malloc(bytes);
 
-  printf("Size subtracted by %u\n", bytes);
-  printf("Tree after Call\n");
-
+  printf("Tree After:\n");
   print_tree(b);
   printf("\n");
 
 }
 
 
+/* free_test: tests my_free. same as my_malloc, my_free is also used throughout
+  * main and  works properly so there is implicit more thorough testing
+	* input:
+  *    bst* b - to test on
+  *    void* address - address for my_free to call on
+	* output: void: visually inspect to find results
+*/
 void free_test(bst *b, void *address, int size){
   printf("my_free Test:\n");
   printf("Tree Before\n");
   print_tree(b);
 
   my_free(address);
-  // printf("%u\n", );
 
   printf("Should insert ");
   memory* expected = memory_new(address, size);
@@ -186,8 +208,6 @@ void free_test(bst *b, void *address, int size){
 bst* make_simple_bst(){
   bst* new = bst_new(memory_size_cmp);
 
-// How do i know the address
-// Or write as integer and cast as a void pointer
   bst_insert(new, memory_new(malloc(50) ,32));
   bst_insert(new, memory_new(malloc(50) ,16));
   bst_insert(new, memory_new(malloc(50) ,48));
@@ -203,9 +223,13 @@ int main() {
 
   bst* temp = make_simple_bst();
 
-  //
-  // successor_test(temp, memory_new(malloc(50) ,32));
-//  print_tree(temp);
+  printf("successor_tests \n");
+   successor_test(temp, memory_new(malloc(50) ,32), memory_new(malloc(50) ,32));
+   successor_test(temp, memory_new(malloc(50) ,24), memory_new(malloc(50) ,24));
+   successor_test(temp, memory_new(malloc(50) ,234), NULL);
+
+
+
   printf("Delete Tests\n");
   delete_test(temp, memory_new(malloc(50), 48));
   printf("\n");
@@ -213,21 +237,35 @@ int main() {
 
   // Free Tests
   init_alloc();
-  // void * da = my_malloc(400);
-  // my_free(da);
-//  free_test(avail_mem, my_malloc(150), 150);
 
 
-  printf("my_malloc Tests\n");
-
+  printf("\nmy_malloc Tests\n");
   my_malloc_tester(avail_mem, 50);
   my_malloc_tester(avail_mem, 150);
-
-//ADDRESS HOW THIS BREAKS THIS FUNCTIONS. SHOULD IT? WHAT ELSE SHOULD IT DO
-//  my_malloc_tester(avail_mem, 2000);
+  my_malloc_tester(avail_mem, 2009);
 
 
-  printf("my_free Tests\n");
+  free(avail_mem);
+  init_alloc();
+//  print_tree(avail_mem);
+  my_malloc(43);
+  my_malloc(3);
+  my_malloc(123);
+  my_malloc(4000);
+  my_malloc(4050);
+
+
+  printf("Inspect Tree give malloc calls\nmy_malloc(43);\n"
+  "my_malloc(3)\nmy_malloc(123);\nmy_malloc(4000);\nmmy_malloc(4050);\n");
+  printf("Should be address: 0x1084a98, size: 3880\n");
+  print_tree(avail_mem);
+
+  free(avail_mem);
+  init_alloc();
+
+
+
+  printf("\nmy_free Tests\n");
   void* addr1 = my_malloc(400);
   void* addr2 = my_malloc(30);
   print_tree(avail_mem);
@@ -244,52 +282,71 @@ int main() {
 
   free(avail_mem);
   init_alloc();
-//  print_tree(avail_mem);
   void* one = my_malloc(43);
   void* two = my_malloc(3);
   void* five = my_malloc(123);
-  //void* third = my_malloc(4000);
-  //void* four = my_malloc(4050);
-  printf("Printing after calling my_malloc\n");
 
   print_tree(avail_mem);
   my_free(one);
   my_free(two);
   my_free(five);
-  printf("done freeing\n");
-//  my_free(third);
-//  my_free(four);
 
-  // merge_test(merge2, merge1,
-  //   memory_new(merge1->addr, merge1->size + merge2->size + 8));
-  // //merge_test(merge1, merge2, )
 
-  print_tree(avail_mem);
+//  print_tree(avail_mem);
   memory* merge1 = bst_iterate(avail_mem);
   memory* merge2 = bst_iterate(NULL);
   memory* merge5 = bst_iterate(NULL);
 //  memory* merge3 = bst_iterate(NULL);
-
-
-printf("Printing Memories in the tree from free\n");
-  memory_print(merge1);
-  memory_print(merge2);
-  memory_print(merge5);
+//
+//
+// printf("Printing Memories in the tree from free\n");
+//   memory_print(merge1);
+//   memory_print(merge2);
+//   memory_print(merge5);
 
 
 
   printf("Testing Merge Memory\n");
+  //merge_test(merge1, merge2,)
+
   memory_print(merge_memory(merge1, merge2));
-  printf("first merge cal;led\n");
-  print_tree(avail_mem);
+  printf("Test Passed: first merge called\n");
+  printf("Size should be 64\n");
+  //print_tree(avail_mem);
+
+  printf("Second Merge Test Called\n");
   memory_print(merge_memory(merge5, merge1));
-    printf("second merge cal;led\n");
-    print_tree(avail_mem);
+  printf("Test Passed: second merge called\n");
+  printf("Size should be 200\n\n\n");\
 
 
 
+  print_tree(avail_mem);
 
-  printf("Height Tests\n");
+
+
+  printf("Compact Memory Testing\n");
+
+
+
+  free(avail_mem);
+  init_alloc();
+  void* six = my_malloc(43);
+  void* seven = my_malloc(3);
+  void* eight = my_malloc(123);
+
+  print_tree(avail_mem);
+  my_free(six);
+  my_free(seven);
+  my_free(eight);
+
+//  print_tree(avail_mem);
+  compact_memory();
+  //printf("dfaadsf\n");
+  print_tree(avail_mem);
+
+
+  printf("\n\nHeight Tests\n");
   bst* temp2 = make_simple_bst();
   height_test(temp2, 3);
   height_test(NULL, 0);

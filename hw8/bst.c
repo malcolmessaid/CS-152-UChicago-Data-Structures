@@ -296,7 +296,8 @@ void* node_item_or_successor(node *n, void *item,
 
 
 void* bst_item_or_successor(bst *b, void *item){
-	if (b == NULL){
+	if (b == NULL || item == NULL){
+		printf("asdf\n");
 		return NULL;
 	}
 
