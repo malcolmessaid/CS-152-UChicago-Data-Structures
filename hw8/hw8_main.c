@@ -270,10 +270,11 @@ int main() {
   void* addr2 = my_malloc(30);
   print_tree(avail_mem);
 
+  printf("My free call on both addresses in tree\n");
   my_free(addr1);
   my_free(addr2);
 
-  printf("My free call\n");
+
   print_tree(avail_mem);
 
 
@@ -322,12 +323,12 @@ int main() {
 
 
 
-  free(avail_mem);
   init_alloc();
+
   void* six = my_malloc(43);
   void* seven = my_malloc(3);
   void* eight = my_malloc(123);
-S
+
   my_free(six);
   my_free(seven);
   my_free(eight);
