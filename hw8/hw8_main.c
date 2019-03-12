@@ -245,8 +245,8 @@ int main() {
   free(avail_mem);
   init_alloc();
 //  print_tree(avail_mem);
-  void* one = my_malloc(48);
-  void* two = my_malloc(1);
+  void* one = my_malloc(43);
+  void* two = my_malloc(3);
   void* five = my_malloc(123);
   //void* third = my_malloc(4000);
   //void* four = my_malloc(4050);
@@ -285,8 +285,9 @@ printf("Printing Memories in the tree from free\n");
   memory_print(merge_memory(merge5, merge1));
     printf("second merge cal;led\n");
     print_tree(avail_mem);
-  //memory_print(merge_memory(me, third));
-  //memory_print(merge_memory(one, two));
+
+
+
 
   printf("Height Tests\n");
   bst* temp2 = make_simple_bst();
