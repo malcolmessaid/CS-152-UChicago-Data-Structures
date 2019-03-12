@@ -105,6 +105,8 @@ void* add_to_address_alloc(void *address, int x){
  * num_bytes size. A pointer to the beginning of the usable piece of
  * that chunk is returned.
  */
+
+ // PUT compact_memory in here
 void *my_malloc(int num_bytes)
 {
 	if ((num_bytes % 8) != 0) {
