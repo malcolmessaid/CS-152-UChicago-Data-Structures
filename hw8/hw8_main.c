@@ -286,23 +286,16 @@ int main() {
   void* two = my_malloc(3);
   void* five = my_malloc(123);
 
-  print_tree(avail_mem);
+  //print_tree(avail_mem);
   my_free(one);
   my_free(two);
   my_free(five);
 
 
-//  print_tree(avail_mem);
+  print_tree(avail_mem);
   memory* merge1 = bst_iterate(avail_mem);
   memory* merge2 = bst_iterate(NULL);
   memory* merge5 = bst_iterate(NULL);
-//  memory* merge3 = bst_iterate(NULL);
-//
-//
-// printf("Printing Memories in the tree from free\n");
-//   memory_print(merge1);
-//   memory_print(merge2);
-//   memory_print(merge5);
 
 
 
@@ -334,15 +327,16 @@ int main() {
   void* six = my_malloc(43);
   void* seven = my_malloc(3);
   void* eight = my_malloc(123);
-
-  print_tree(avail_mem);
+S
   my_free(six);
   my_free(seven);
   my_free(eight);
 
-//  print_tree(avail_mem);
+
+  print_tree(avail_mem);
+  printf("Before Call to print tree\n");
   compact_memory();
-  //printf("dfaadsf\n");
+  printf("After Call to print tree\n");
   print_tree(avail_mem);
 
 

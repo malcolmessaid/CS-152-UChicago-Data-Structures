@@ -188,7 +188,10 @@ void bst_inorder_traversal(bst* b, void(*func)(void* data)){
 }
 
 // a helper function to create linked list from bst by in order traversal
-void inorder_traversal_insert_llist(node* root, llist* l){
+void inorder_traversal_insert_llist(node* root, llist* l){  // THis might be plus 16
+
+
+  // Points to the beginning of the usable chunk
 
 	if (root == NULL){
 		return;

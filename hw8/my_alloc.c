@@ -14,7 +14,8 @@
 
 /* This is the tree that holds the available memory. */
 bst *avail_mem = NULL;
-//bst *address_sorted_mem = NULL;
+
+
 
 /* This includes all of the functions for the memory allocator.
  * The last two functions (my_malloc and my_free) are public
@@ -40,7 +41,7 @@ bst *avail_mem = NULL;
  *
  * Search through all available memory and attempt to merge memory
  * that is stored next to each other.
- * This uses global variable avail_mem, so it does not need any
+ * fThis uses global variable avail_mem, so it does not need any
  * input parameters. Look at the bst functions and memory functions.
  */
 void compact_memory()
@@ -50,14 +51,23 @@ void compact_memory()
 	void *item;
 	for(item = bst_iterate(add_bst); item != NULL; item = bst_iterate(NULL)){
     // am i using the iterator correctly??
+    printf("asdffadsfdf\n");
     void* next_item = bst_iterate(NULL);
-    memory_print((memory*)next_item);
+  //  memory_print((memory*)next_item);
     void *item_two = merge_memory(item, next_item);
-
+    printf("asdf\n");
+    printf("item_two %p\n", item_two);
 
 		while(item_two){
+      printf("hello1\n");
       item = bst_iterate(NULL);
+      memory_print(item);
+      if (item == NULL){
+        break;
+      }
+      printf("Hello2\n");
       item_two = merge_memory(item, bst_iterate(NULL));
+      printf("Hello3\n");
     }
 	}
 }
